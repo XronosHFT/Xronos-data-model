@@ -17,17 +17,23 @@ public class Contract extends AbstractEvent<Contract> {
   private String name = StringUtils.EMPTY;
   private ProductEnum product = ProductEnum.NONE;
   private int size;
-  private float pricePrecision;
-  private float amountPrecision;
+  private double pricePrecision;
+  private double amountPrecision;
 
-  private float minOrderAmount = 1.0f;           // minimum trading volume of the contract
-  private float maxOrderAmount = Float.MAX_VALUE;
-  private float minOrderValue = 1.0f;
+  private double minOrderAmount = 1.0;           // minimum trading volume of the contract
+  private double maxOrderAmount = Double.MAX_VALUE;
+  private double minOrderValue = 1.0;
+  private double maxOrderValue = Double.MAX_VALUE;
+  private double limitOrderMinOrderAmount = 1.0;
+  private double limitOrderMaxOrderAmount = Double.MAX_VALUE;
+  private double sellMarketMinOrderAmount = 1.0;
+  private double sellMarketMaxOrderAmount = Double.MAX_VALUE;
+  private double buyMarketMaxOrderValue = Double.MAX_VALUE;
   private boolean stopSupported = false;    //whether server supports stop order
   private boolean netPosition = false;      // whether gateway uses net position volume
   private boolean historyData = false;      // whether gateway provides bar history data
 
-  private float optionStrike = 0;
+  private double optionStrike = 0;
   private String optionUnderlying = StringUtils.EMPTY;          // xs_symbol of underlying contract
   private OptionTypeEnum optionType;
   private Date optionExpiry = new Date();
@@ -77,47 +83,47 @@ public class Contract extends AbstractEvent<Contract> {
     return this;
   }
 
-  public float pricePrecision() {
+  public double pricePrecision() {
     return pricePrecision;
   }
 
-  public Contract pricePrecision(float pricePrecision) {
+  public Contract pricePrecision(double pricePrecision) {
     this.pricePrecision = pricePrecision;
     return this;
   }
 
-  public float amountPrecision() {
+  public double amountPrecision() {
     return amountPrecision;
   }
 
-  public Contract amountPrecision(float amountPrecision) {
+  public Contract amountPrecision(double amountPrecision) {
     this.amountPrecision = amountPrecision;
     return this;
   }
 
-  public float minOrderAmount() {
+  public double minOrderAmount() {
     return minOrderAmount;
   }
 
-  public Contract minOrderAmount(float minOrderAmount) {
+  public Contract minOrderAmount(double minOrderAmount) {
     this.minOrderAmount = minOrderAmount;
     return this;
   }
 
-  public float maxOrderAmount() {
+  public double maxOrderAmount() {
     return maxOrderAmount;
   }
 
-  public Contract maxOrderAmount(float maxOrderAmount) {
+  public Contract maxOrderAmount(double maxOrderAmount) {
     this.maxOrderAmount = maxOrderAmount;
     return this;
   }
 
-  public float minOrderValue() {
+  public double minOrderValue() {
     return minOrderValue;
   }
 
-  public Contract minOrderValue(float minOrderValue) {
+  public Contract minOrderValue(double minOrderValue) {
     this.minOrderValue = minOrderValue;
     return this;
   }
@@ -149,11 +155,11 @@ public class Contract extends AbstractEvent<Contract> {
     return this;
   }
 
-  public float optionStrike() {
+  public double optionStrike() {
     return optionStrike;
   }
 
-  public Contract optionStrike(float optionStrike) {
+  public Contract optionStrike(double optionStrike) {
     this.optionStrike = optionStrike;
     return this;
   }
@@ -185,6 +191,59 @@ public class Contract extends AbstractEvent<Contract> {
     return this;
   }
 
+  public double maxOrderValue() {
+    return maxOrderValue;
+  }
+
+  public Contract maxOrderValue(double maxOrderValue) {
+    this.maxOrderValue = maxOrderValue;
+    return this;
+  }
+
+  public double limitOrderMinOrderAmount() {
+    return limitOrderMinOrderAmount;
+  }
+
+  public Contract limitOrderMinOrderAmount(double limitOrderMinOrderAmount) {
+    this.limitOrderMinOrderAmount = limitOrderMinOrderAmount;
+    return this;
+  }
+
+  public double limitOrderMaxOrderAmount() {
+    return limitOrderMaxOrderAmount;
+  }
+
+  public Contract limitOrderMaxOrderAmount(double limitOrderMaxOrderAmount) {
+    this.limitOrderMaxOrderAmount = limitOrderMaxOrderAmount;
+    return this;
+  }
+
+  public double sellMarketMinOrderAmount() {
+    return sellMarketMinOrderAmount;
+  }
+
+  public Contract sellMarketMinOrderAmount(double sellMarketMinOrderAmount) {
+    this.sellMarketMinOrderAmount = sellMarketMinOrderAmount;
+    return this;
+  }
+
+  public double sellMarketMaxOrderAmount() {
+    return sellMarketMaxOrderAmount;
+  }
+
+  public Contract sellMarketMaxOrderAmount(double sellMarketMaxOrderAmount) {
+    this.sellMarketMaxOrderAmount = sellMarketMaxOrderAmount;
+    return this;
+  }
+
+  public double buyMarketMaxOrderValue() {
+    return buyMarketMaxOrderValue;
+  }
+
+  public Contract buyMarketMaxOrderValue(double buyMarketMaxOrderValue) {
+    this.buyMarketMaxOrderValue = buyMarketMaxOrderValue;
+    return this;
+  }
 
   @Override
   public void writeMarshallable(BytesOut out) {
@@ -194,15 +253,21 @@ public class Contract extends AbstractEvent<Contract> {
       out.writeObject(String.class, name);
       out.writeObject(ProductEnum.class, product);
       out.writeInt(size);
-      out.writeFloat(pricePrecision);
-      out.writeFloat(amountPrecision);
-      out.writeFloat(minOrderAmount);
-      out.writeFloat(maxOrderAmount);
-      out.writeFloat(minOrderValue);
+      out.writeDouble(pricePrecision);
+      out.writeDouble(amountPrecision);
+      out.writeDouble(minOrderAmount);
+      out.writeDouble(maxOrderAmount);
+      out.writeDouble(minOrderValue);
+      out.writeDouble(maxOrderValue);
+      out.writeDouble(limitOrderMinOrderAmount);
+      out.writeDouble(limitOrderMaxOrderAmount);
+      out.writeDouble(sellMarketMinOrderAmount);
+      out.writeDouble(sellMarketMaxOrderAmount);
+      out.writeDouble(buyMarketMaxOrderValue);
       out.writeBoolean(stopSupported);
       out.writeBoolean(netPosition);
       out.writeBoolean(historyData);
-      out.writeFloat(optionStrike);
+      out.writeDouble(optionStrike);
       out.writeObject(String.class, optionUnderlying);
       out.writeObject(OptionTypeEnum.class, optionType);
       out.writeObject(Date.class, optionExpiry);
@@ -224,6 +289,12 @@ public class Contract extends AbstractEvent<Contract> {
         minOrderAmount = in.readFloat();
         maxOrderAmount = in.readFloat();
         minOrderValue = in.readFloat();
+        maxOrderValue = in.readDouble();
+        limitOrderMinOrderAmount = in.readDouble();
+        limitOrderMaxOrderAmount = in.readDouble();
+        sellMarketMinOrderAmount = in.readDouble();
+        sellMarketMaxOrderAmount = in.readDouble();
+        buyMarketMaxOrderValue = in.readDouble();
         stopSupported = in.readBoolean();
         netPosition = in.readBoolean();
         historyData = in.readBoolean();
@@ -245,15 +316,21 @@ public class Contract extends AbstractEvent<Contract> {
       out.write("name").object(String.class, name);
       out.write("product").object(ProductEnum.class, product);
       out.write("size").writeInt(size);
-      out.write("pricePrecision").writeFloat(pricePrecision);
-      out.write("amountPrecision").writeFloat(amountPrecision);
-      out.write("minOrderAmount").writeFloat(minOrderAmount);
-      out.write("maxOrderAmount").writeFloat(maxOrderAmount);
-      out.write("minOrderValue").writeFloat(minOrderValue);
+      out.write("pricePrecision").writeDouble(pricePrecision);
+      out.write("amountPrecision").writeDouble(amountPrecision);
+      out.write("minOrderAmount").writeDouble(minOrderAmount);
+      out.write("maxOrderAmount").writeDouble(maxOrderAmount);
+      out.write("minOrderValue").writeDouble(minOrderValue);
+      out.write("maxOrderValue").writeDouble(maxOrderValue);
+      out.write("limitOrderMinOrderAmount").writeDouble(limitOrderMinOrderAmount);
+      out.write("limitOrderMaxOrderAmount").writeDouble(limitOrderMaxOrderAmount);
+      out.write("sellMarketMinOrderAmount").writeDouble(sellMarketMinOrderAmount);
+      out.write("sellMarketMaxOrderAmount").writeDouble(sellMarketMaxOrderAmount);
+      out.write("buyMarketMaxOrderValue").writeDouble(buyMarketMaxOrderValue);
       out.write("stopSupported").writeBoolean(stopSupported);
       out.write("netPosition").writeBoolean(netPosition);
       out.write("historyData").writeBoolean(historyData);
-      out.write("optionStrike").writeFloat(optionStrike);
+      out.write("optionStrike").writeDouble(optionStrike);
       out.write("optionUnderlying").object(String.class, optionUnderlying);
       out.write("optionType").object(OptionTypeEnum.class, optionType);
       out.write("optionExpiry").object(Date.class, optionExpiry);
@@ -268,15 +345,21 @@ public class Contract extends AbstractEvent<Contract> {
       name = in.read("name").object(name, String.class);
       product = in.read("product").object(product, ProductEnum.class);
       size = in.read("size").readInt();
-      pricePrecision = in.read("pricePrecision").readFloat();
-      amountPrecision = in.read("amountPrecision").readFloat();
-      minOrderAmount = in.read("minOrderAmount").readFloat();
-      maxOrderAmount = in.read("maxOrderAmount").readFloat();
-      minOrderValue = in.read("minOrderValue").readFloat();
+      pricePrecision = in.read("pricePrecision").readDouble();
+      amountPrecision = in.read("amountPrecision").readDouble();
+      minOrderAmount = in.read("minOrderAmount").readDouble();
+      maxOrderAmount = in.read("maxOrderAmount").readDouble();
+      minOrderValue = in.read("minOrderValue").readDouble();
+      maxOrderValue = in.read("maxOrderValue").readDouble();
+      limitOrderMinOrderAmount = in.read("limitOrderMinOrderAmount").readDouble();
+      limitOrderMaxOrderAmount = in.read("limitOrderMaxOrderAmount").readDouble();
+      sellMarketMinOrderAmount = in.read("sellMarketMinOrderAmount").readDouble();
+      sellMarketMaxOrderAmount = in.read("sellMarketMaxOrderAmount").readDouble();
+      buyMarketMaxOrderValue = in.read("buyMarketMaxOrderValue").readDouble();
       stopSupported = in.read("stopSupported").readBoolean();
       netPosition = in.read("netPosition").readBoolean();
       historyData = in.read("historyData").readBoolean();
-      optionStrike = in.read("optionStrike").readFloat();
+      optionStrike = in.read("optionStrike").readDouble();
       optionUnderlying = in.read("optionUnderlying").object(optionUnderlying, String.class);
       optionType = in.read("optionType").object(optionType, OptionTypeEnum.class);
       optionExpiry = in.read("optionExpiry").object(optionExpiry, Date.class);

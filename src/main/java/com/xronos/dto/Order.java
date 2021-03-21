@@ -17,18 +17,18 @@ import java.util.Set;
 public class Order extends AbstractEvent<Order> {
   private static final int MASHALLABLE_VERSION = 1;
 
-  private String orderId = StringUtils.EMPTY;
+  private long orderId = Long.MIN_VALUE;
 
   private OrderTypeEnum type = OrderTypeEnum.NONE;
   private DirectionEnum direction = DirectionEnum.NONE;
   private OffsetEnum offset = OffsetEnum.NONE;
   private StatusEnum status = StatusEnum.NONE;
 
-  private float price;
-  private float volume;
-  private float traded;
-  private float remainAmount;
-  private Long time = 0L;
+  private double price;
+  private double volume;
+  private double traded;
+  private double remainAmount;
+  private long time = 0L;
 
 
   public String symbol() {
@@ -49,11 +49,11 @@ public class Order extends AbstractEvent<Order> {
     return this;
   }
 
-  public String orderId() {
+  public long orderId() {
     return orderId;
   }
 
-  public Order orderId(String orderId) {
+  public Order orderId(long orderId) {
     this.orderId = orderId;
     return this;
   }
@@ -94,38 +94,38 @@ public class Order extends AbstractEvent<Order> {
     return this;
   }
 
-  public float price() {
+  public double price() {
     return price;
   }
 
-  public Order price(float price) {
+  public Order price(double price) {
     this.price = price;
     return this;
   }
 
-  public float volume() {
+  public double volume() {
     return volume;
   }
 
-  public Order volume(float volume) {
+  public Order volume(double volume) {
     this.volume = volume;
     return this;
   }
 
-  public float traded() {
+  public double traded() {
     return traded;
   }
 
-  public Order traded(float traded) {
+  public Order traded(double traded) {
     this.traded = traded;
     return this;
   }
 
-  public float remainAmount() {
+  public double remainAmount() {
     return remainAmount;
   }
 
-  public Order remainAmount(float remainAmount) {
+  public Order remainAmount(double remainAmount) {
     this.remainAmount = remainAmount;
     return this;
   }
@@ -168,10 +168,10 @@ public class Order extends AbstractEvent<Order> {
       out.writeObject(DirectionEnum.class, direction);
       out.writeObject(OffsetEnum.class, offset);
       out.writeObject(StatusEnum.class, status);
-      out.writeFloat(price);
-      out.writeFloat(volume);
-      out.writeFloat(traded);
-      out.writeFloat(remainAmount);
+      out.writeDouble(price);
+      out.writeDouble(volume);
+      out.writeDouble(traded);
+      out.writeDouble(remainAmount);
       out.writeLong(time);
     }
   }
@@ -183,7 +183,7 @@ public class Order extends AbstractEvent<Order> {
       int version = (int) in.readStopBit();
       if (version == MASHALLABLE_VERSION) {
         symbol = (String) in.readObject(String.class);
-        orderId = (String) in.readObject(String.class);
+        orderId = in.readLong();
         exchange = (ExchangeEnum) in.readObject(ExchangeEnum.class);
         type = (OrderTypeEnum) in.readObject(OrderTypeEnum.class);
         direction = (DirectionEnum) in.readObject(DirectionEnum.class);
@@ -206,15 +206,15 @@ public class Order extends AbstractEvent<Order> {
     if (PREGENERATED_MARSHALLABLE) {
       out.write("symbol").object(String.class, symbol);
       out.write("exchange").object(ExchangeEnum.class, exchange);
-      out.write("orderId").object(String.class, orderId);
+      out.write("orderId").writeLong(orderId);
       out.write("OrderTypeEnum").object(OrderTypeEnum.class, type);
       out.write("direction").object(DirectionEnum.class, direction);
       out.write("offset").object(OffsetEnum.class, offset);
       out.write("status").object(StatusEnum.class, status);
-      out.write("price").writeFloat(price);
-      out.write("volume").writeFloat(volume);
-      out.write("traded").writeFloat(traded);
-      out.write("remainAmount").writeFloat(remainAmount);
+      out.write("price").writeDouble(price);
+      out.write("volume").writeDouble(volume);
+      out.write("traded").writeDouble(traded);
+      out.write("remainAmount").writeDouble(remainAmount);
       out.write("time").writeLong(time);
     }
   }

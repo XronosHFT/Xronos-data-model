@@ -11,15 +11,26 @@ public class CancelOrderRequest extends AbstractEvent<CancelOrderRequest> {
 
   private static final int MASHALLABLE_VERSION = 1;
 
-  private String orderId;
+  private long orderId;
 
-  public String orderId() {
-    return orderId;
-  }
+  private String xsOrderId;
 
-  public CancelOrderRequest orderId(String orderId) {
+  public CancelOrderRequest orderId(long orderId) {
     this.orderId = orderId;
     return this;
+  }
+
+  public String xsOrderId() {
+    return xsOrderId;
+  }
+
+  public CancelOrderRequest xsOrderId(String xsOrderId) {
+    this.xsOrderId = xsOrderId;
+    return this;
+  }
+
+  public long orderId() {
+    return orderId;
   }
 
   public String symbol() {
@@ -46,7 +57,7 @@ public class CancelOrderRequest extends AbstractEvent<CancelOrderRequest> {
     if (PREGENERATED_MARSHALLABLE) {
       out.writeObject(String.class, symbol);
       out.writeObject(ExchangeEnum.class, exchange);
-      out.writeObject(String.class, orderId);
+      out.writeLong(orderId);
     }
   }
 
@@ -58,7 +69,7 @@ public class CancelOrderRequest extends AbstractEvent<CancelOrderRequest> {
       if (version == MASHALLABLE_VERSION) {
         symbol = (String) in.readObject(String.class);
         exchange = (ExchangeEnum) in.readObject(ExchangeEnum.class);
-        orderId = (String) in.readObject(String.class);
+        orderId = in.readLong();
       } else {
         throw new IllegalStateException("Unknown version " + version);
       }
@@ -71,7 +82,7 @@ public class CancelOrderRequest extends AbstractEvent<CancelOrderRequest> {
     if (PREGENERATED_MARSHALLABLE) {
       out.write("symbol").object(String.class, symbol);
       out.write("exchange").object(ExchangeEnum.class, exchange);
-      out.write("orderId").object(String.class, orderId);
+      out.write("orderId").writeLong(orderId);
     }
   }
 
@@ -81,7 +92,7 @@ public class CancelOrderRequest extends AbstractEvent<CancelOrderRequest> {
     if (PREGENERATED_MARSHALLABLE) {
       symbol = in.read("symbol").object(symbol, String.class);
       exchange = in.read("exchange").object(exchange, ExchangeEnum.class);
-      orderId = in.read("orderId").object(orderId, String.class);
+      orderId = in.read("orderId").readLong();
     }
   }
 }

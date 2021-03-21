@@ -16,8 +16,8 @@ public class OrderRequest extends AbstractEvent<OrderRequest> {
   private static final int MASHALLABLE_VERSION = 1;
   private DirectionEnum direction = DirectionEnum.NONE;
   private OrderTypeEnum type = OrderTypeEnum.NONE;
-  private float volume;
-  private float price;
+  private Double volume;
+  private Double price;
   private OffsetEnum offset = OffsetEnum.NONE;
 
   public String symbol() {
@@ -56,20 +56,20 @@ public class OrderRequest extends AbstractEvent<OrderRequest> {
     return this;
   }
 
-  public float volume() {
+  public double volume() {
     return volume;
   }
 
-  public OrderRequest volume(float volume) {
+  public OrderRequest volume(double volume) {
     this.volume = volume;
     return this;
   }
 
-  public float price() {
+  public double price() {
     return price;
   }
 
-  public OrderRequest price(float price) {
+  public OrderRequest price(double price) {
     this.price = price;
     return this;
   }
@@ -88,9 +88,9 @@ public class OrderRequest extends AbstractEvent<OrderRequest> {
     super.writeMarshallable(out);
     if (PREGENERATED_MARSHALLABLE) {
       out.writeObject(String.class, symbol);
-      out.writeFloat(price);
+      out.writeDouble(price);
       out.writeObject(OrderTypeEnum.class, type);
-      out.writeFloat(volume);
+      out.writeDouble(volume);
       out.writeObject(OffsetEnum.class, type);
     }
   }
@@ -102,9 +102,9 @@ public class OrderRequest extends AbstractEvent<OrderRequest> {
       int version = (int) in.readStopBit();
       if (version == MASHALLABLE_VERSION) {
         symbol = (String) in.readObject(String.class);
-        price = in.readFloat();
+        price = in.readDouble();
         type = (OrderTypeEnum) in.readObject(OrderTypeEnum.class);
-        volume = in.readFloat();
+        volume = in.readDouble();
         offset = (OffsetEnum) in.readObject(OffsetEnum.class);
       } else {
         throw new IllegalStateException("Unknown version " + version);
@@ -117,9 +117,9 @@ public class OrderRequest extends AbstractEvent<OrderRequest> {
     super.writeMarshallable(out);
     if (PREGENERATED_MARSHALLABLE) {
       out.write("symbol").object(String.class, symbol);
-      out.write("price").writeFloat(price);
+      out.write("price").writeDouble(price);
       out.write("type").object(OrderTypeEnum.class, type);
-      out.write("volume").writeFloat(volume);
+      out.write("volume").writeDouble(volume);
       out.write("offset").object(OffsetEnum.class, offset);
     }
   }
@@ -129,9 +129,9 @@ public class OrderRequest extends AbstractEvent<OrderRequest> {
     super.readMarshallable(in);
     if (PREGENERATED_MARSHALLABLE) {
       symbol = in.read("symbol").object(symbol, String.class);
-      price = in.read("price").readFloat();
+      price = in.read("price").readDouble();
       type = in.read("type").object(type, OrderTypeEnum.class);
-      volume = in.read("volume").readFloat();
+      volume = in.read("volume").readDouble();
       offset = in.read("offset").object(offset, OffsetEnum.class);
     }
   }

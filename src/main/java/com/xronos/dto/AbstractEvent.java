@@ -4,6 +4,7 @@ import com.xronos.constants.ExchangeEnum;
 import net.openhft.chronicle.bytes.BytesIn;
 import net.openhft.chronicle.bytes.BytesOut;
 import net.openhft.chronicle.wire.Base85LongConverter;
+import net.openhft.chronicle.wire.CharConversion;
 import net.openhft.chronicle.wire.LongConversion;
 import net.openhft.chronicle.wire.MicroTimestampLongConverter;
 import net.openhft.chronicle.wire.SelfDescribingMarshallable;

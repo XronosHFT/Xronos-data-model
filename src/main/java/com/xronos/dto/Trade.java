@@ -17,9 +17,9 @@ public class Trade extends AbstractEvent<Trade> {
   private DirectionEnum direction = DirectionEnum.NONE;
 
   private OffsetEnum offset;
-  private float price;
-  private float volume;
-  private float fee;
+  private double price;
+  private double volume;
+  private double fee;
   private Long time;
 
   public String symbol() {
@@ -76,29 +76,29 @@ public class Trade extends AbstractEvent<Trade> {
     return this;
   }
 
-  public float price() {
+  public double price() {
     return price;
   }
 
-  public Trade price(float price) {
+  public Trade price(double price) {
     this.price = price;
     return this;
   }
 
-  public float volume() {
+  public double volume() {
     return volume;
   }
 
-  public Trade volume(float volume) {
+  public Trade volume(double volume) {
     this.volume = volume;
     return this;
   }
 
-  public float fee() {
+  public double fee() {
     return fee;
   }
 
-  public Trade fee(float fee) {
+  public Trade fee(double fee) {
     this.fee = fee;
     return this;
   }
@@ -130,9 +130,9 @@ public class Trade extends AbstractEvent<Trade> {
       out.writeObject(String.class, tradeId);
       out.writeObject(DirectionEnum.class, direction);
       out.writeObject(OffsetEnum.class, offset);
-      out.writeFloat(price);
-      out.writeFloat(volume);
-      out.writeFloat(fee);
+      out.writeDouble(price);
+      out.writeDouble(volume);
+      out.writeDouble(fee);
       out.writeLong(time);
     }
   }
@@ -148,9 +148,9 @@ public class Trade extends AbstractEvent<Trade> {
         tradeId = (String) in.readObject(String.class);
         direction = (DirectionEnum) in.readObject(DirectionEnum.class);
         offset = (OffsetEnum) in.readObject(OffsetEnum.class);
-        price = in.readFloat();
-        volume = in.readFloat();
-        fee = in.readFloat();
+        price = in.readDouble();
+        volume = in.readDouble();
+        fee = in.readDouble();
         time = in.readLong();
       } else {
         throw new IllegalStateException("Unknown version " + version);
@@ -167,9 +167,9 @@ public class Trade extends AbstractEvent<Trade> {
       out.write("tradeId").object(String.class, tradeId);
       out.write("direction").object(DirectionEnum.class, direction);
       out.write("offset").object(OffsetEnum.class, offset);
-      out.write("price").writeFloat(price);
-      out.write("volume").writeFloat(volume);
-      out.write("fee").writeFloat(fee);
+      out.write("price").writeDouble(price);
+      out.write("volume").writeDouble(volume);
+      out.write("fee").writeDouble(fee);
       out.write("time").writeLong(time);
     }
   }
@@ -183,9 +183,9 @@ public class Trade extends AbstractEvent<Trade> {
       tradeId = in.read("tradeId").object(tradeId, String.class);
       direction = in.read("direction").object(direction, DirectionEnum.class);
       offset = in.read("offset").object(offset, OffsetEnum.class);
-      price = in.read("price").readFloat();
-      volume = in.read("volume").readFloat();
-      fee = in.read("fee").readFloat();
+      price = in.read("price").readDouble();
+      volume = in.read("volume").readDouble();
+      fee = in.read("fee").readDouble();
       time = in.read("time").readLong();
     }
   }
