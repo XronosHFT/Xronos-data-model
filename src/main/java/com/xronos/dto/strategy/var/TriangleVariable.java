@@ -1,31 +1,10 @@
 package com.xronos.dto.strategy.var;
 
 import com.xronos.dto.AbstractEvent;
-import com.xronos.dto.Balance;
-import com.xronos.dto.Tick;
-import com.xronos.dto.Trade;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.AtomicReference;
 
 
 public class TriangleVariable extends AbstractEvent<TriangleVariable> {
 
-  private final Logger logger = LoggerFactory.getLogger(getClass());
-
-  private final Map<String, Trade> tradeDataMap = new HashMap<>();
-  private final Map<String, Tick> marketPriceTickMap = new HashMap<>();
-  private final Map<String, Balance> accountDataMap = new HashMap<>();
-
-  private AtomicReference<String> activeQwOrderId = new AtomicReference<>(StringUtils.EMPTY);
-
-  private Map<String, Map<String, String>> triangleOrderTree = new HashMap<>();
-  private final AtomicInteger orderIdAtomicCount = new AtomicInteger(0);
 
   private double marketBuySize = Double.MIN_NORMAL;
   private double marketSellSize = Double.MIN_NORMAL;
@@ -41,36 +20,6 @@ public class TriangleVariable extends AbstractEvent<TriangleVariable> {
 
   private double posSellHedgeAmount = Double.MIN_NORMAL;
   private double negSellHedgeAmount = Double.MIN_NORMAL;
-
-  public Map<String, Trade> tradeDataMap() {
-    return tradeDataMap;
-  }
-
-  public Map<String, Tick> marketPriceTickMap() {
-    return marketPriceTickMap;
-  }
-
-  public Map<String, Balance> accountDataMap() {
-    return accountDataMap;
-  }
-
-  public String activeQwOrderId() {
-    return activeQwOrderId.get();
-  }
-
-  public TriangleVariable activeQwOrderId(AtomicReference<String> activeQwOrderId) {
-    this.activeQwOrderId = activeQwOrderId;
-    return this;
-  }
-
-  public Map<String, Map<String, String>> triangleOrderTree() {
-    return triangleOrderTree;
-  }
-
-  public TriangleVariable triangleOrderTree(Map<String, Map<String, String>> triangleOrderTree) {
-    this.triangleOrderTree = triangleOrderTree;
-    return this;
-  }
 
   public double marketBuySize() {
     return marketBuySize;
@@ -160,27 +109,6 @@ public class TriangleVariable extends AbstractEvent<TriangleVariable> {
   public TriangleVariable negSellHedgeAmount(double negSellHedgeAmount) {
     this.negSellHedgeAmount = negSellHedgeAmount;
     return this;
-  }
-
-  public void setActiveQwOrderId(String activeQwOrderId) {
-    this.activeQwOrderId.set(activeQwOrderId);
-  }
-
-  public void resetActiveQwOrderId() {
-    try {
-      logger.warn("Reset stacktrace:{}", new Exception().getStackTrace());
-    } catch (Exception e) {
-      //
-    }
-    this.activeQwOrderId.set(StringUtils.EMPTY);
-  }
-
-  public int orderIdAtomicCount() {
-    return orderIdAtomicCount.getAndIncrement();
-  }
-
-  public void resetOrderIdAtomicCount() {
-    this.orderIdAtomicCount.set(0);
   }
 }
 

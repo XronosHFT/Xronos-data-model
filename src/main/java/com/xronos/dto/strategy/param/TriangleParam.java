@@ -49,7 +49,6 @@ public class TriangleParam extends AbstractEvent<TriangleParam> {
   private int delayTimeForCheck = 50;             // 10ms
 
   public ExchangeEnum exchangeEnum() {
-    this.reset();
     return exchangeEnum;
   }
 
