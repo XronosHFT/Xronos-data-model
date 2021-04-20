@@ -15,6 +15,8 @@ public class Timer extends AbstractEvent<Timer> implements Delayed {
 
   private String name;
 
+  private Object msg;
+
   private long time;
 
   @Override
@@ -51,6 +53,14 @@ public class Timer extends AbstractEvent<Timer> implements Delayed {
     return this;
   }
 
+  public Object msg() {
+    return msg;
+  }
+
+  public Timer msg(Object msg) {
+    this.msg = msg;
+    return this;
+  }
 
   @Override
   public void writeMarshallable(BytesOut out) {
@@ -58,6 +68,7 @@ public class Timer extends AbstractEvent<Timer> implements Delayed {
     if (PREGENERATED_MARSHALLABLE) {
       out.writeObject(String.class, name);
       out.writeLong(time);
+      out.writeObject(Object.class, msg);
     }
   }
 
@@ -69,6 +80,7 @@ public class Timer extends AbstractEvent<Timer> implements Delayed {
       if (version == MASHALLABLE_VERSION) {
         name = (String) in.readObject(String.class);
         time = in.readLong();
+        msg = in.readObject(Object.class);
       } else {
         throw new IllegalStateException("Unknown version " + version);
       }
@@ -81,6 +93,7 @@ public class Timer extends AbstractEvent<Timer> implements Delayed {
     if (PREGENERATED_MARSHALLABLE) {
       out.write("name").object(String.class, name);
       out.write("time").writeLong(time);
+      out.write("msg").object(Object.class, msg);
     }
   }
 
@@ -90,6 +103,7 @@ public class Timer extends AbstractEvent<Timer> implements Delayed {
     if (PREGENERATED_MARSHALLABLE) {
       name = in.read("name").object(name, String.class);
       time = in.read("time").readLong();
+      msg = in.read("msg").object(msg, Object.class);
     }
   }
 }

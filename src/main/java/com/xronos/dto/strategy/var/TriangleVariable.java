@@ -5,10 +5,6 @@ import com.xronos.dto.AbstractEvent;
 
 public class TriangleVariable extends AbstractEvent<TriangleVariable> {
 
-
-  private double marketBuySize = Double.MIN_NORMAL;
-  private double marketSellSize = Double.MIN_NORMAL;
-
   private double posBuySize = Double.MIN_NORMAL;
   private double negBuySize = Double.MIN_NORMAL;
 
@@ -20,24 +16,6 @@ public class TriangleVariable extends AbstractEvent<TriangleVariable> {
 
   private double posSellHedgeAmount = Double.MIN_NORMAL;
   private double negSellHedgeAmount = Double.MIN_NORMAL;
-
-  public double marketBuySize() {
-    return marketBuySize;
-  }
-
-  public TriangleVariable marketBuySize(double marketBuySize) {
-    this.marketBuySize = marketBuySize;
-    return this;
-  }
-
-  public double marketSellSize() {
-    return marketSellSize;
-  }
-
-  public TriangleVariable marketSellSize(double marketSellSize) {
-    this.marketSellSize = marketSellSize;
-    return this;
-  }
 
   public double posBuySize() {
     return posBuySize;

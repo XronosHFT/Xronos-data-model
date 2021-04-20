@@ -6,6 +6,8 @@ import com.xronos.dto.AbstractEvent;
 import com.xronos.dto.Contract;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.concurrent.TimeUnit;
+
 public class TriangleParam extends AbstractEvent<TriangleParam> {
 
   protected ExchangeEnum exchangeEnum;
@@ -46,7 +48,8 @@ public class TriangleParam extends AbstractEvent<TriangleParam> {
   private double minBaseMidTradingAmount = 0.2;     // LTC/BTC交易对，设置为0.2, ETH/BTC交易对，设置为0.02
   private double minQuoteMidTradingAmount = 0.2;    // LTC/BTC交易对，设置为0.2, ETH/BTC交易对，设置为0.02
 
-  private int delayTimeForCheck = 50;             // 10ms
+  private int time = 50;             // 10ms
+  private TimeUnit timeUnit;
 
   public ExchangeEnum exchangeEnum() {
     return exchangeEnum;
@@ -249,16 +252,6 @@ public class TriangleParam extends AbstractEvent<TriangleParam> {
     return this;
   }
 
-  public int delayTimeForCheck() {
-    return delayTimeForCheck;
-  }
-
-  public TriangleParam delayTimeForCheck(int delayTimeForCheck) {
-    this.delayTimeForCheck = delayTimeForCheck;
-    return this;
-  }
-
-
   public double minBaseQuoteTradingValue() {
     Contract contract = getContract(baseQuoteQwSymbol());
     if (contract != null) {
@@ -417,5 +410,27 @@ public class TriangleParam extends AbstractEvent<TriangleParam> {
   private Contract getContract(String quoteMidQwSymbol) {
     //TODO tobe enhance
     return null;
+  }
+
+  public TimeUnit timeUnit() {
+    return timeUnit;
+  }
+
+  public TriangleParam timeUnit(TimeUnit timeUnit) {
+    this.timeUnit = timeUnit;
+    return this;
+  }
+
+  public boolean strategyRunningFlag() {
+    return strategyRunningFlag;
+  }
+
+  public int time() {
+    return time;
+  }
+
+  public TriangleParam time(int time) {
+    this.time = time;
+    return this;
   }
 }
