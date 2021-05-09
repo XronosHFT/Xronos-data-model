@@ -12,8 +12,6 @@ public class Account extends AbstractEvent<Account> {
 
   private String state;
 
-  private List<Balance> list;
-
   private String subType;
 
   public String accountId() {
@@ -40,15 +38,6 @@ public class Account extends AbstractEvent<Account> {
 
   public Account state(String state) {
     this.state = state;
-    return this;
-  }
-
-  public List<Balance> list() {
-    return list;
-  }
-
-  public Account list(List<Balance> list) {
-    this.list = list;
     return this;
   }
 

@@ -11,7 +11,7 @@ public enum TimerSecondEnum {
     this.secs = secs;
   }
 
-  private String getValue() {
+  public String getValue() {
     return secs;
   }
 }
