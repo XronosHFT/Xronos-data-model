@@ -51,14 +51,8 @@ public class TriangleParam extends AbstractEvent<TriangleParam> {
   private int time = 50;             // 10ms
   private TimeUnit timeUnit;
 
-  public ExchangeEnum exchangeEnum() {
-    return exchangeEnum;
-  }
-
-  public TriangleParam exchangeEnum(ExchangeEnum exchangeEnum) {
-    this.exchangeEnum = exchangeEnum;
-    return this;
-  }
+  private String type;
+  private String subType;
 
   public boolean isstrategyRunningFlag() {
     return strategyRunningFlag;
@@ -315,7 +309,7 @@ public class TriangleParam extends AbstractEvent<TriangleParam> {
   }
 
   private String getSuffix() {
-    return "." + exchangeEnum();
+    return "." + exchange().name().toLowerCase();
   }
 
   public double minBaseMidTradingValue() {
@@ -431,6 +425,33 @@ public class TriangleParam extends AbstractEvent<TriangleParam> {
 
   public TriangleParam time(int time) {
     this.time = time;
+    return this;
+  }
+
+  public String type() {
+    return type;
+  }
+
+  public TriangleParam type(String type) {
+    this.type = type;
+    return this;
+  }
+
+  public ExchangeEnum exchange() {
+    return exchange;
+  }
+
+  public TriangleParam exchange(ExchangeEnum exchangeEnum) {
+    this.exchange = exchangeEnum;
+    return this;
+  }
+
+  public String subType() {
+    return subType;
+  }
+
+  public TriangleParam subType(String subType) {
+    this.subType = subType;
     return this;
   }
 }

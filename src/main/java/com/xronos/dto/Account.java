@@ -1,6 +1,6 @@
 package com.xronos.dto;
 
-import java.util.List;
+import com.xronos.constants.ExchangeEnum;
 
 public class Account extends AbstractEvent<Account> {
 
@@ -16,6 +16,14 @@ public class Account extends AbstractEvent<Account> {
 
   public String accountId() {
     return accountId;
+  }
+
+  public String xsAccountId() {
+    if (subType.isBlank()) {
+      return String.join(".", exchange.name(), type).toLowerCase();
+    } else {
+      return String.join(".", exchange.name(), type, subType).toLowerCase();
+    }
   }
 
   public Account accountId(String accountId) {
@@ -47,6 +55,11 @@ public class Account extends AbstractEvent<Account> {
 
   public Account subType(String subType) {
     this.subType = subType;
+    return this;
+  }
+
+  public Account exchange(ExchangeEnum exchange) {
+    this.exchange = exchange;
     return this;
   }
 }

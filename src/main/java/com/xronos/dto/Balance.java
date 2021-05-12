@@ -74,6 +74,10 @@ public class Balance extends AbstractEvent<Balance> {
     return (asset + "." + exchange.name()).toLowerCase();
   }
 
+  public String balanceId() {
+    return String.join(".", xsSymbol(), accountId).toLowerCase();
+  }
+
   public Balance available(double available) {
     this.available = available;
     return this;
