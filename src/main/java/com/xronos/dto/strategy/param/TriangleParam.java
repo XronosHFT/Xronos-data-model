@@ -2,13 +2,13 @@ package com.xronos.dto.strategy.param;
 
 import com.xronos.constants.ExchangeEnum;
 import com.xronos.constants.StrategyTemplateEnum;
-import com.xronos.dto.AbstractEvent;
 import com.xronos.dto.Contract;
+import net.openhft.chronicle.wire.SelfDescribingMarshallable;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.concurrent.TimeUnit;
 
-public class TriangleParam extends AbstractEvent<TriangleParam> {
+public class TriangleParam extends SelfDescribingMarshallable {
 
   protected ExchangeEnum exchangeEnum;
 
@@ -53,6 +53,7 @@ public class TriangleParam extends AbstractEvent<TriangleParam> {
 
   private String type;
   private String subType;
+  private ExchangeEnum exchange;
 
   public boolean isstrategyRunningFlag() {
     return strategyRunningFlag;
