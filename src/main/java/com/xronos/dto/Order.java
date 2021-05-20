@@ -9,7 +9,6 @@ import net.openhft.chronicle.bytes.BytesIn;
 import net.openhft.chronicle.bytes.BytesOut;
 import net.openhft.chronicle.wire.WireIn;
 import net.openhft.chronicle.wire.WireOut;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -145,7 +144,7 @@ public class Order extends AbstractEvent<Order> {
   }
 
   public boolean active() {
-    Set<StatusEnum> activeStatus = new HashSet<StatusEnum>() {
+    Set<StatusEnum> activeStatus = new HashSet<>() {
       {
         add(StatusEnum.SUBMITTING);
         add(StatusEnum.NOTTRADED);
