@@ -1,6 +1,7 @@
 package com.xronos.dto.request;
 
 
+import com.xronos.constants.ContractTypeEnum;
 import com.xronos.constants.DirectionEnum;
 import com.xronos.constants.ExchangeEnum;
 import com.xronos.constants.OffsetEnum;
@@ -15,10 +16,13 @@ public class OrderRequest extends AbstractEvent<OrderRequest> {
 
   private static final int MASHALLABLE_VERSION = 1;
   private DirectionEnum direction = DirectionEnum.NONE;
-  private OrderTypeEnum type = OrderTypeEnum.NONE;
-  private Double volume;
-  private Double price;
+  private OrderTypeEnum orderType = OrderTypeEnum.NONE;
   private OffsetEnum offset = OffsetEnum.NONE;
+  private ContractTypeEnum contractType = ContractTypeEnum.NONE;
+
+  private double volume;
+  private double price;
+  private int leverRate;
 
   public String symbol() {
     return symbol;
@@ -47,12 +51,12 @@ public class OrderRequest extends AbstractEvent<OrderRequest> {
     return this;
   }
 
-  public OrderTypeEnum type() {
-    return type;
+  public OrderTypeEnum orderType() {
+    return orderType;
   }
 
-  public OrderRequest type(OrderTypeEnum type) {
-    this.type = type;
+  public OrderRequest orderType(OrderTypeEnum orderType) {
+    this.orderType = orderType;
     return this;
   }
 
@@ -83,15 +87,35 @@ public class OrderRequest extends AbstractEvent<OrderRequest> {
     return this;
   }
 
+  public int leverRate() {
+    return leverRate;
+  }
+
+  public OrderRequest leverRate(int leverRate) {
+    this.leverRate = leverRate;
+    return this;
+  }
+
+  public ContractTypeEnum contractType() {
+    return contractType;
+  }
+
+  public OrderRequest contractType(ContractTypeEnum contractType) {
+    this.contractType = contractType;
+    return this;
+  }
+
   @Override
   public void writeMarshallable(BytesOut out) {
     super.writeMarshallable(out);
     if (PREGENERATED_MARSHALLABLE) {
       out.writeObject(String.class, symbol);
       out.writeDouble(price);
-      out.writeObject(OrderTypeEnum.class, type);
+      out.writeInt(leverRate);
+      out.writeObject(OrderTypeEnum.class, orderType);
       out.writeDouble(volume);
-      out.writeObject(OffsetEnum.class, type);
+      out.writeObject(OffsetEnum.class, offset);
+      out.writeObject(ContractTypeEnum.class, contractType);
     }
   }
 
@@ -103,9 +127,11 @@ public class OrderRequest extends AbstractEvent<OrderRequest> {
       if (version == MASHALLABLE_VERSION) {
         symbol = (String) in.readObject(String.class);
         price = in.readDouble();
-        type = (OrderTypeEnum) in.readObject(OrderTypeEnum.class);
+        leverRate = in.readInt();
+        orderType = (OrderTypeEnum) in.readObject(OrderTypeEnum.class);
         volume = in.readDouble();
         offset = (OffsetEnum) in.readObject(OffsetEnum.class);
+        contractType = (ContractTypeEnum) in.readObject(ContractTypeEnum.class);
       } else {
         throw new IllegalStateException("Unknown version " + version);
       }
@@ -118,9 +144,11 @@ public class OrderRequest extends AbstractEvent<OrderRequest> {
     if (PREGENERATED_MARSHALLABLE) {
       out.write("symbol").object(String.class, symbol);
       out.write("price").writeDouble(price);
-      out.write("type").object(OrderTypeEnum.class, type);
+      out.write("leverRate").writeInt(leverRate);
+      out.write("type").object(OrderTypeEnum.class, orderType);
       out.write("volume").writeDouble(volume);
       out.write("offset").object(OffsetEnum.class, offset);
+      out.write("contractType").object(ContractTypeEnum.class, contractType);
     }
   }
 
@@ -130,9 +158,11 @@ public class OrderRequest extends AbstractEvent<OrderRequest> {
     if (PREGENERATED_MARSHALLABLE) {
       symbol = in.read("symbol").object(symbol, String.class);
       price = in.read("price").readDouble();
-      type = in.read("type").object(type, OrderTypeEnum.class);
+      leverRate = in.read("leverRate").readInt();
+      orderType = in.read("type").object(orderType, OrderTypeEnum.class);
       volume = in.read("volume").readDouble();
       offset = in.read("offset").object(offset, OffsetEnum.class);
+      contractType = in.read("contractType").object(contractType, ContractTypeEnum.class);
     }
   }
 }
