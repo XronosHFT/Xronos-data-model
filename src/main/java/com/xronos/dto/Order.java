@@ -1,5 +1,6 @@
 package com.xronos.dto;
 
+import com.xronos.constants.ContractTypeEnum;
 import com.xronos.constants.DirectionEnum;
 import com.xronos.constants.ExchangeEnum;
 import com.xronos.constants.OffsetEnum;
@@ -9,6 +10,7 @@ import net.openhft.chronicle.bytes.BytesIn;
 import net.openhft.chronicle.bytes.BytesOut;
 import net.openhft.chronicle.wire.WireIn;
 import net.openhft.chronicle.wire.WireOut;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -18,10 +20,12 @@ public class Order extends AbstractEvent<Order> {
 
   private long orderId = Long.MIN_VALUE;
 
-  private OrderTypeEnum type = OrderTypeEnum.NONE;
+  private OrderTypeEnum orderType = OrderTypeEnum.NONE;
   private DirectionEnum direction = DirectionEnum.NONE;
   private OffsetEnum offset = OffsetEnum.NONE;
   private StatusEnum status = StatusEnum.NONE;
+  private ContractTypeEnum contractType = ContractTypeEnum.NONE;
+  private int leverRate;
 
   private double price;
   private double volume;
@@ -29,6 +33,7 @@ public class Order extends AbstractEvent<Order> {
   private double remainAmount;
   private long time = 0L;
 
+  private String accountId = StringUtils.EMPTY;
 
   public String symbol() {
     return symbol;
@@ -57,12 +62,12 @@ public class Order extends AbstractEvent<Order> {
     return this;
   }
 
-  public OrderTypeEnum type() {
-    return type;
+  public OrderTypeEnum orderType() {
+    return orderType;
   }
 
-  public Order type(OrderTypeEnum type) {
-    this.type = type;
+  public Order orderType(OrderTypeEnum type) {
+    this.orderType = type;
     return this;
   }
 
@@ -138,6 +143,23 @@ public class Order extends AbstractEvent<Order> {
     return this;
   }
 
+  public ContractTypeEnum contractType() {
+    return contractType;
+  }
+
+  public Order contractType(ContractTypeEnum contractTypeEnum) {
+    this.contractType = contractTypeEnum;
+    return this;
+  }
+
+  public int leverRate() {
+    return leverRate;
+  }
+
+  public Order leverRate(int leverRate) {
+    this.leverRate = leverRate;
+    return this;
+  }
 
   public String xsOrderId() {
     return (exchange.name() + "." + orderId).toLowerCase();
@@ -156,14 +178,24 @@ public class Order extends AbstractEvent<Order> {
     return activeStatus.contains(status);
   }
 
+  public String accountId() {
+    return accountId;
+  }
+
+  public Order accountId(String accountId) {
+    this.accountId = accountId;
+    return this;
+  }
+
   @Override
   public void writeMarshallable(BytesOut out) {
     super.writeMarshallable(out);
     if (PREGENERATED_MARSHALLABLE) {
       out.writeObject(String.class, symbol);
       out.writeObject(String.class, orderId);
+      out.writeObject(String.class, accountId);
       out.writeObject(ExchangeEnum.class, exchange);
-      out.writeObject(OrderTypeEnum.class, type);
+      out.writeObject(OrderTypeEnum.class, orderType);
       out.writeObject(DirectionEnum.class, direction);
       out.writeObject(OffsetEnum.class, offset);
       out.writeObject(StatusEnum.class, status);
@@ -182,9 +214,10 @@ public class Order extends AbstractEvent<Order> {
       int version = (int) in.readStopBit();
       if (version == MASHALLABLE_VERSION) {
         symbol = (String) in.readObject(String.class);
+        accountId = (String) in.readObject(String.class);
         orderId = in.readLong();
         exchange = (ExchangeEnum) in.readObject(ExchangeEnum.class);
-        type = (OrderTypeEnum) in.readObject(OrderTypeEnum.class);
+        orderType = (OrderTypeEnum) in.readObject(OrderTypeEnum.class);
         direction = (DirectionEnum) in.readObject(DirectionEnum.class);
         offset = (OffsetEnum) in.readObject(OffsetEnum.class);
         status = (StatusEnum) in.readObject(OffsetEnum.class);
@@ -204,9 +237,10 @@ public class Order extends AbstractEvent<Order> {
     super.writeMarshallable(out);
     if (PREGENERATED_MARSHALLABLE) {
       out.write("symbol").object(String.class, symbol);
+      out.write("accountId").object(String.class, accountId);
       out.write("exchange").object(ExchangeEnum.class, exchange);
       out.write("orderId").writeLong(orderId);
-      out.write("OrderTypeEnum").object(OrderTypeEnum.class, type);
+      out.write("orderType").object(OrderTypeEnum.class, orderType);
       out.write("direction").object(DirectionEnum.class, direction);
       out.write("offset").object(OffsetEnum.class, offset);
       out.write("status").object(StatusEnum.class, status);
@@ -223,9 +257,10 @@ public class Order extends AbstractEvent<Order> {
     super.readMarshallable(in);
     if (PREGENERATED_MARSHALLABLE) {
       symbol = in.read("symbol").object(symbol, String.class);
+      accountId = in.read("accountId").object(accountId, String.class);
       exchange = in.read("exchange").object(exchange, ExchangeEnum.class);
-      orderId = in.read("orderId").object(orderId, String.class);
-      type = in.read("type").object(type, OrderTypeEnum.class);
+      orderId = in.read("orderId").readLong();
+      orderType = in.read("type").object(orderType, OrderTypeEnum.class);
       direction = in.read("direction").object(direction, DirectionEnum.class);
       offset = in.read("offset").object(offset, OffsetEnum.class);
       status = in.read("status").object(status, StatusEnum.class);

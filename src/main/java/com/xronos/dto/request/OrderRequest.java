@@ -22,7 +22,7 @@ public class OrderRequest extends AbstractEvent<OrderRequest> {
 
   private double volume;
   private double price;
-  private int leverRate;
+  private int leverRate = 1;
 
   public String symbol() {
     return symbol;
