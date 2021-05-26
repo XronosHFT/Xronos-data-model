@@ -7,20 +7,24 @@ import net.openhft.chronicle.bytes.BytesIn;
 import net.openhft.chronicle.bytes.BytesOut;
 import net.openhft.chronicle.wire.WireIn;
 import net.openhft.chronicle.wire.WireOut;
-import org.apache.commons.lang3.StringUtils;
 
 public class Trade extends AbstractEvent<Trade> {
   private static final int MASHALLABLE_VERSION = 1;
 
-  private String orderId = StringUtils.EMPTY;
-  private String tradeId = StringUtils.EMPTY;
+  private long orderId;
+  private long tradeId;
   private DirectionEnum direction = DirectionEnum.NONE;
-
   private OffsetEnum offset;
+
+  private String feeAsset;
+  private String role;
+
+  private double profit;
   private double price;
   private double volume;
   private double fee;
-  private Long time;
+
+  private long time;
 
   public String symbol() {
     return symbol;
@@ -40,20 +44,20 @@ public class Trade extends AbstractEvent<Trade> {
     return this;
   }
 
-  public String orderId() {
+  public long orderId() {
     return orderId;
   }
 
-  public Trade orderId(String orderId) {
+  public Trade orderId(long orderId) {
     this.orderId = orderId;
     return this;
   }
 
-  public String tradeId() {
+  public long tradeId() {
     return tradeId;
   }
 
-  public Trade tradeId(String tradeId) {
+  public Trade tradeId(long tradeId) {
     this.tradeId = tradeId;
     return this;
   }
@@ -103,11 +107,11 @@ public class Trade extends AbstractEvent<Trade> {
     return this;
   }
 
-  public Long time() {
+  public long time() {
     return time;
   }
 
-  public Trade time(Long time) {
+  public Trade time(long time) {
     this.time = time;
     return this;
   }
@@ -120,20 +124,51 @@ public class Trade extends AbstractEvent<Trade> {
     return gatewayName + "." + tradeId;
   }
 
+  public double profit() {
+    return profit;
+  }
+
+  public Trade profit(double profit) {
+    this.profit = profit;
+    return this;
+  }
+
+  public String feeAsset() {
+    return feeAsset;
+  }
+
+  public Trade feeAsset(String feeAsset) {
+    this.feeAsset = feeAsset;
+    return this;
+  }
+
+  public String role() {
+    return role;
+  }
+
+  public Trade role(String role) {
+    this.role = role;
+    return this;
+  }
 
   @Override
   public void writeMarshallable(BytesOut out) {
     super.writeMarshallable(out);
     if (PREGENERATED_MARSHALLABLE) {
       out.writeObject(String.class, symbol);
-      out.writeObject(String.class, orderId);
-      out.writeObject(String.class, tradeId);
+      out.writeObject(String.class, feeAsset);
+      out.writeObject(String.class, role);
       out.writeObject(DirectionEnum.class, direction);
       out.writeObject(OffsetEnum.class, offset);
+
+      out.writeLong(orderId);
+      out.writeLong(tradeId);
+      out.writeLong(time);
+
       out.writeDouble(price);
       out.writeDouble(volume);
       out.writeDouble(fee);
-      out.writeLong(time);
+      out.writeDouble(profit);
     }
   }
 
@@ -144,14 +179,19 @@ public class Trade extends AbstractEvent<Trade> {
       int version = (int) in.readStopBit();
       if (version == MASHALLABLE_VERSION) {
         symbol = (String) in.readObject(String.class);
-        orderId = (String) in.readObject(String.class);
-        tradeId = (String) in.readObject(String.class);
+        feeAsset = (String) in.readObject(String.class);
+        role = (String) in.readObject(String.class);
         direction = (DirectionEnum) in.readObject(DirectionEnum.class);
         offset = (OffsetEnum) in.readObject(OffsetEnum.class);
+
+        time = in.readLong();
+        orderId = in.readLong();
+        tradeId = in.readLong();
+
         price = in.readDouble();
         volume = in.readDouble();
         fee = in.readDouble();
-        time = in.readLong();
+        profit = in.readDouble();
       } else {
         throw new IllegalStateException("Unknown version " + version);
       }
@@ -163,14 +203,20 @@ public class Trade extends AbstractEvent<Trade> {
     super.writeMarshallable(out);
     if (PREGENERATED_MARSHALLABLE) {
       out.write("symbol").object(String.class, symbol);
-      out.write("orderId").object(String.class, orderId);
-      out.write("tradeId").object(String.class, tradeId);
+      out.write("feeAsset").object(String.class, feeAsset);
+      out.write("role").object(String.class, role);
+
       out.write("direction").object(DirectionEnum.class, direction);
       out.write("offset").object(OffsetEnum.class, offset);
+
+      out.write("time").writeLong(time);
+      out.write("orderId").writeLong(orderId);
+      out.write("tradeId").writeLong(tradeId);
+
       out.write("price").writeDouble(price);
       out.write("volume").writeDouble(volume);
       out.write("fee").writeDouble(fee);
-      out.write("time").writeLong(time);
+      out.write("profit").writeDouble(profit);
     }
   }
 
@@ -179,14 +225,19 @@ public class Trade extends AbstractEvent<Trade> {
     super.readMarshallable(in);
     if (PREGENERATED_MARSHALLABLE) {
       symbol = in.read("symbol").object(symbol, String.class);
-      orderId = in.read("orderId").object(orderId, String.class);
-      tradeId = in.read("tradeId").object(tradeId, String.class);
+      feeAsset = in.read("symbol").object(feeAsset, String.class);
+      role = in.read("symbol").object(role, String.class);
       direction = in.read("direction").object(direction, DirectionEnum.class);
       offset = in.read("offset").object(offset, OffsetEnum.class);
+
       price = in.read("price").readDouble();
       volume = in.read("volume").readDouble();
       fee = in.read("fee").readDouble();
+      profit = in.read("profit").readDouble();
+
       time = in.read("time").readLong();
+      orderId = in.read("orderId").readLong();
+      tradeId = in.read("tradeId").readLong();
     }
   }
 }

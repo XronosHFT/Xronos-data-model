@@ -9,11 +9,12 @@ public enum StatusEnum {
 
   NONE("NONE"),
   SUBMITTING("提交中"),      // active
-  NOTTRADED("未成交"),       // active
-  PARTTRADED("部分成交"),    // active
+  SUBMITTED("已提交"),      // active
+  NOT_TRADED("未成交"),       // active
+  PARTIAL_TRADED("部分成交"),    // active
   CANCELLING("撤单中"),      // active
-  ALLTRADED("全部成交"),
-  PARTCANCELED("部分撤单"),   // active
+  ALL_TRADED("全部成交"),
+  PARTIAL_CANCELED("部分撤单"),   // active
   CANCELED("已撤销"),
   REJECTED("拒单"),
   CLOSED("订单关闭");

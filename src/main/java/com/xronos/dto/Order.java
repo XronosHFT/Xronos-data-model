@@ -169,9 +169,10 @@ public class Order extends AbstractEvent<Order> {
     Set<StatusEnum> activeStatus = new HashSet<>() {
       {
         add(StatusEnum.SUBMITTING);
-        add(StatusEnum.NOTTRADED);
-        add(StatusEnum.PARTTRADED);
-        add(StatusEnum.PARTCANCELED);
+        add(StatusEnum.SUBMITTED);
+        add(StatusEnum.NOT_TRADED);
+        add(StatusEnum.PARTIAL_TRADED);
+        add(StatusEnum.PARTIAL_CANCELED);
         add(StatusEnum.CANCELLING);
       }
     };
