@@ -40,8 +40,8 @@ public enum ExchangeEnum {
   BITME(""),
   OKEX(""),
   BITFINEX(""),
-  BINANCE(""),
-  HUOBI(""),
+  BINANCE("biance"),
+  HUOBI("huobi"),
   COINBASE(""),
 
   // Special Function
