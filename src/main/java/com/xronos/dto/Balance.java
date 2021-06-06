@@ -1,6 +1,7 @@
 package com.xronos.dto;
 
 import com.xronos.constants.ExchangeEnum;
+import com.xronos.constants.ProductEnum;
 import net.openhft.chronicle.bytes.BytesIn;
 import net.openhft.chronicle.bytes.BytesOut;
 import net.openhft.chronicle.wire.WireIn;
@@ -15,6 +16,7 @@ public class Balance extends AbstractEvent<Balance> {
   private double balance;
   private double available;
   private double frozen;
+  private ProductEnum product;
   private ExchangeEnum exchange = ExchangeEnum.NONE;
 
   public String accountId() {
@@ -83,6 +85,14 @@ public class Balance extends AbstractEvent<Balance> {
     return this;
   }
 
+  public ProductEnum product() {
+    return product;
+  }
+
+  public Balance product(ProductEnum product) {
+    this.product = product;
+    return this;
+  }
 
   @Override
   public void writeMarshallable(BytesOut out) {
@@ -95,6 +105,7 @@ public class Balance extends AbstractEvent<Balance> {
       out.writeDouble(available);
       out.writeDouble(frozen);
       out.writeObject(ExchangeEnum.class, exchange);
+      out.writeObject(ProductEnum.class, product);
     }
   }
 
@@ -111,6 +122,7 @@ public class Balance extends AbstractEvent<Balance> {
         available = in.readFloat();
         frozen = in.readFloat();
         exchange = (ExchangeEnum) in.readObject(ExchangeEnum.class);
+        product = (ProductEnum) in.readObject(ProductEnum.class);
       } else {
         throw new IllegalStateException("Unknown version " + version);
       }
@@ -128,6 +140,7 @@ public class Balance extends AbstractEvent<Balance> {
       out.write("available").writeDouble(available);
       out.write("frozen").writeDouble(frozen);
       out.write("exchange").object(ExchangeEnum.class, exchange);
+      out.write("product").object(ProductEnum.class, product);
     }
   }
 
@@ -142,6 +155,7 @@ public class Balance extends AbstractEvent<Balance> {
       available = in.read("available").readFloat();
       frozen = in.read("frozen").readFloat();
       exchange = in.read("exchange").object(exchange, ExchangeEnum.class);
+      product = in.read("product").object(product, ProductEnum.class);
     }
   }
 }
