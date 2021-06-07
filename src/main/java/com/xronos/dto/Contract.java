@@ -1,5 +1,6 @@
 package com.xronos.dto;
 
+import com.xronos.constants.ContractTypeEnum;
 import com.xronos.constants.ExchangeEnum;
 import com.xronos.constants.OptionTypeEnum;
 import com.xronos.constants.ProductEnum;
@@ -11,12 +12,17 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.Date;
 
+// symbol + contractType:应该是唯一的key
 public class Contract extends AbstractEvent<Contract> {
   private static final int MASHALLABLE_VERSION = 1;
 
-  private String name = StringUtils.EMPTY;
-  private ProductEnum product = ProductEnum.NONE;
+  private String name = StringUtils.EMPTY; // ETH210611
+  private ProductEnum product = ProductEnum.NONE; // SPOT, MARGIN
   private int size;
+  private int status;
+  private ContractTypeEnum contractType; //CW, NW, CQ, NQ
+  private String deliveryDate;
+  private long deliveryTime;
   private double pricePrecision;
   private double amountPrecision;
 
@@ -242,6 +248,42 @@ public class Contract extends AbstractEvent<Contract> {
 
   public Contract buyMarketMaxOrderValue(double buyMarketMaxOrderValue) {
     this.buyMarketMaxOrderValue = buyMarketMaxOrderValue;
+    return this;
+  }
+
+  public int status() {
+    return status;
+  }
+
+  public Contract status(int status) {
+    this.status = status;
+    return this;
+  }
+
+  public ContractTypeEnum contractType() {
+    return contractType;
+  }
+
+  public Contract contractType(ContractTypeEnum contractType) {
+    this.contractType = contractType;
+    return this;
+  }
+
+  public String deliveryDate() {
+    return deliveryDate;
+  }
+
+  public Contract deliveryDate(String deliveryDate) {
+    this.deliveryDate = deliveryDate;
+    return this;
+  }
+
+  public long deliveryTime() {
+    return deliveryTime;
+  }
+
+  public Contract deliveryTime(long deliveryTime) {
+    this.deliveryTime = deliveryTime;
     return this;
   }
 

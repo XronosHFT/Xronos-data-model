@@ -77,6 +77,13 @@ public class Balance extends AbstractEvent<Balance> {
   }
 
   public String balanceId() {
+    if (ProductEnum.SPOT.equals(product)) {
+      return String.join(".", xsSymbol(), accountId).toLowerCase();
+    }
+    if (ProductEnum.MARGIN.equals(product)) {
+      return String.join(".", xsSymbol(), product.name().toLowerCase()).toLowerCase();
+    }
+    // TODO need to enhance for the other products
     return String.join(".", xsSymbol(), accountId).toLowerCase();
   }
 
