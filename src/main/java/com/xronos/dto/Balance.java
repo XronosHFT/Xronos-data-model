@@ -2,6 +2,7 @@ package com.xronos.dto;
 
 import com.xronos.constants.ExchangeEnum;
 import com.xronos.constants.ProductEnum;
+import com.xronos.constants.XronosConstant;
 import net.openhft.chronicle.bytes.BytesIn;
 import net.openhft.chronicle.bytes.BytesOut;
 import net.openhft.chronicle.wire.WireIn;
@@ -51,7 +52,7 @@ public class Balance extends AbstractEvent<Balance> {
   }
 
   public String xsAccountId() {
-    return gatewayName + "." + accountId;
+    return gatewayName + XronosConstant.DOT_SEPARATOR + accountId;
   }
 
   public String asset() {
@@ -73,18 +74,18 @@ public class Balance extends AbstractEvent<Balance> {
   }
 
   public String xsSymbol() {
-    return (asset + "." + exchange.name()).toLowerCase();
+    return (asset + XronosConstant.DOT_SEPARATOR + exchange.name()).toLowerCase();
   }
 
   public String balanceId() {
     if (ProductEnum.SPOT.equals(product)) {
-      return String.join(".", xsSymbol(), accountId).toLowerCase();
+      return String.join(XronosConstant.DOT_SEPARATOR, xsSymbol(), accountId).toLowerCase();
     }
     if (ProductEnum.MARGIN.equals(product)) {
-      return String.join(".", xsSymbol(), product.name().toLowerCase()).toLowerCase();
+      return String.join(XronosConstant.DOT_SEPARATOR, xsSymbol(), product.name().toLowerCase()).toLowerCase();
     }
     // TODO need to enhance for the other products
-    return String.join(".", xsSymbol(), accountId).toLowerCase();
+    return String.join(XronosConstant.DOT_SEPARATOR, xsSymbol(), accountId).toLowerCase();
   }
 
   public Balance available(double available) {

@@ -1,6 +1,7 @@
 package com.xronos.dto;
 
 import com.xronos.constants.ExchangeEnum;
+import com.xronos.constants.XronosConstant;
 import net.openhft.chronicle.bytes.BytesIn;
 import net.openhft.chronicle.bytes.BytesOut;
 import net.openhft.chronicle.wire.Base85LongConverter;
@@ -123,7 +124,7 @@ public class AbstractEvent<E extends AbstractEvent<E>> extends SelfDescribingMar
   }
 
   public String xsSymbol() {
-    return (symbol + "." + exchange.name()).toLowerCase();
+    return (symbol + XronosConstant.DOT_SEPARATOR + exchange.name()).toLowerCase();
   }
 
   public ExchangeEnum exchange() {

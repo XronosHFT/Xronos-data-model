@@ -6,6 +6,7 @@ import com.xronos.constants.ExchangeEnum;
 import com.xronos.constants.OffsetEnum;
 import com.xronos.constants.OrderTypeEnum;
 import com.xronos.constants.StatusEnum;
+import com.xronos.constants.XronosConstant;
 import net.openhft.chronicle.bytes.BytesIn;
 import net.openhft.chronicle.bytes.BytesOut;
 import net.openhft.chronicle.wire.WireIn;
@@ -162,7 +163,7 @@ public class Order extends AbstractEvent<Order> {
   }
 
   public String xsOrderId() {
-    return (exchange.name() + "." + orderId).toLowerCase();
+    return (exchange.name() + XronosConstant.DOT_SEPARATOR + orderId).toLowerCase();
   }
 
   public boolean active() {

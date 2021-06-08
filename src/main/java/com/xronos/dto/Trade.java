@@ -3,6 +3,7 @@ package com.xronos.dto;
 import com.xronos.constants.DirectionEnum;
 import com.xronos.constants.ExchangeEnum;
 import com.xronos.constants.OffsetEnum;
+import com.xronos.constants.XronosConstant;
 import net.openhft.chronicle.bytes.BytesIn;
 import net.openhft.chronicle.bytes.BytesOut;
 import net.openhft.chronicle.wire.WireIn;
@@ -117,11 +118,11 @@ public class Trade extends AbstractEvent<Trade> {
   }
 
   public String xsOrderId() {
-    return gatewayName + "." + orderId;
+    return gatewayName + XronosConstant.DOT_SEPARATOR + orderId;
   }
 
   public String xsTradeId() {
-    return gatewayName + "." + tradeId;
+    return gatewayName + XronosConstant.DOT_SEPARATOR + tradeId;
   }
 
   public double profit() {

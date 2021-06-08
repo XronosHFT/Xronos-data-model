@@ -10,5 +10,6 @@ class ContractTypeEnumTest {
   public void testContractTypeEnum() {
     log.info(ContractTypeEnum.CW.name());
     log.info(ContractTypeEnum.valueOf("CW").value);
+    log.info(ContractTypeEnum.valueOf("CW").name());
   }
 }

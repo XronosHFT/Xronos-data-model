@@ -1,6 +1,7 @@
 package com.xronos.dto;
 
 import com.xronos.constants.ExchangeEnum;
+import com.xronos.constants.XronosConstant;
 
 public class Account extends AbstractEvent<Account> {
 
@@ -20,9 +21,9 @@ public class Account extends AbstractEvent<Account> {
 
   public String xsAccountId() {
     if (subType.isBlank()) {
-      return String.join(".", exchange.name(), type).toLowerCase();
+      return String.join(XronosConstant.DOT_SEPARATOR, exchange.name(), type).toLowerCase();
     } else {
-      return String.join(".", exchange.name(), type, subType).toLowerCase();
+      return String.join(XronosConstant.DOT_SEPARATOR, exchange.name(), type, subType).toLowerCase();
     }
   }
 

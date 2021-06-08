@@ -1,7 +1,9 @@
 package com.xronos.dto;
 
 
+import com.xronos.constants.ContractTypeEnum;
 import com.xronos.constants.ExchangeEnum;
+import com.xronos.constants.XronosConstant;
 import net.openhft.chronicle.bytes.BytesIn;
 import net.openhft.chronicle.bytes.BytesOut;
 import net.openhft.chronicle.wire.WireIn;
@@ -12,6 +14,7 @@ public class Tick extends AbstractEvent<Tick> {
 
   private long datetime;
   private String name = "";
+  private ContractTypeEnum contractType = ContractTypeEnum.NONE;
   private double volume = 0;
 
   private double openInterest = 0;
@@ -355,6 +358,22 @@ public class Tick extends AbstractEvent<Tick> {
     return this;
   }
 
+  public ContractTypeEnum contractType() {
+    return contractType;
+  }
+
+  public Tick contractType(ContractTypeEnum contractType) {
+    this.contractType = contractType;
+    return this;
+  }
+
+  @Override
+  public String xsSymbol() {
+    if (!ContractTypeEnum.NONE.equals(contractType)) {
+      return (symbol + XronosConstant.UNDERLINE_SEPARATOR + contractType + XronosConstant.DOT_SEPARATOR + exchange.name()).toLowerCase();
+    }
+    return (symbol + XronosConstant.DOT_SEPARATOR + exchange.name()).toLowerCase();
+  }
 
   @Override
   public void writeMarshallable(BytesOut out) {
@@ -362,6 +381,7 @@ public class Tick extends AbstractEvent<Tick> {
     if (PREGENERATED_MARSHALLABLE) {
       out.writeObject(String.class, symbol);
       out.writeObject(ExchangeEnum.class, exchange);
+      out.writeObject(ContractTypeEnum.class, contractType);
       out.writeLong(datetime);
       out.writeObject(String.class, name);
       out.writeDouble(volume);
@@ -410,6 +430,7 @@ public class Tick extends AbstractEvent<Tick> {
       if (version == MASHALLABLE_VERSION) {
         symbol = (String) in.readObject(String.class);
         exchange = (ExchangeEnum) in.readObject(ExchangeEnum.class);
+        contractType = (ContractTypeEnum) in.readObject(ContractTypeEnum.class);
         datetime = in.readLong();
         name = (String) in.readObject(String.class);
         volume = in.readDouble();
@@ -459,6 +480,7 @@ public class Tick extends AbstractEvent<Tick> {
     if (PREGENERATED_MARSHALLABLE) {
       out.write("symbol").object(String.class, symbol);
       out.write("exchange").object(ExchangeEnum.class, exchange);
+      out.write("contractType").object(ContractTypeEnum.class, contractType);
       out.write("datetime").writeLong(datetime);
       out.write("name").object(String.class, name);
       out.write("volume").writeDouble(volume);
@@ -506,6 +528,7 @@ public class Tick extends AbstractEvent<Tick> {
     if (PREGENERATED_MARSHALLABLE) {
       symbol = in.read("symbol").object(symbol, String.class);
       exchange = in.read("exchange").object(exchange, ExchangeEnum.class);
+      contractType = in.read("contractType").object(contractType, ContractTypeEnum.class);
       datetime = in.read("datetime").readLong();
       name = in.read("name").object(name, String.class);
       volume = in.read("volume").readDouble();
