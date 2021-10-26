@@ -22,6 +22,7 @@ public class OrderRequest extends AbstractEvent<OrderRequest> {
 
   private double volume;
   private double price;
+  private int precision;
   private int leverRate = 1;
 
   public String symbol() {
@@ -77,6 +78,14 @@ public class OrderRequest extends AbstractEvent<OrderRequest> {
     this.price = price;
     return this;
   }
+  public int precision() {
+    return precision;
+  }
+
+  public OrderRequest precision(int precision) {
+    this.precision = precision;
+    return this;
+  }
 
   public OffsetEnum offset() {
     return offset;
@@ -111,6 +120,7 @@ public class OrderRequest extends AbstractEvent<OrderRequest> {
     if (PREGENERATED_MARSHALLABLE) {
       out.writeObject(String.class, symbol);
       out.writeDouble(price);
+      out.writeInt(precision);
       out.writeInt(leverRate);
       out.writeObject(OrderTypeEnum.class, orderType);
       out.writeDouble(volume);
@@ -127,6 +137,7 @@ public class OrderRequest extends AbstractEvent<OrderRequest> {
       if (version == MASHALLABLE_VERSION) {
         symbol = (String) in.readObject(String.class);
         price = in.readDouble();
+        precision = in.readInt();
         leverRate = in.readInt();
         orderType = (OrderTypeEnum) in.readObject(OrderTypeEnum.class);
         volume = in.readDouble();
@@ -144,6 +155,7 @@ public class OrderRequest extends AbstractEvent<OrderRequest> {
     if (PREGENERATED_MARSHALLABLE) {
       out.write("symbol").object(String.class, symbol);
       out.write("price").writeDouble(price);
+      out.write("precision").writeInt(precision);
       out.write("leverRate").writeInt(leverRate);
       out.write("type").object(OrderTypeEnum.class, orderType);
       out.write("volume").writeDouble(volume);
@@ -158,6 +170,7 @@ public class OrderRequest extends AbstractEvent<OrderRequest> {
     if (PREGENERATED_MARSHALLABLE) {
       symbol = in.read("symbol").object(symbol, String.class);
       price = in.read("price").readDouble();
+      precision = in.read("precision").readInt();
       leverRate = in.read("leverRate").readInt();
       orderType = in.read("type").object(orderType, OrderTypeEnum.class);
       volume = in.read("volume").readDouble();

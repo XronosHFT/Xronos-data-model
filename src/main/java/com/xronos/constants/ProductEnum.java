@@ -28,4 +28,31 @@ public enum ProductEnum {
   ProductEnum(String value) {
     this.value = value;
   }
+
+  /**
+   * 根据enum值解析
+   */
+  public static ProductEnum parseValue(String productValue) {
+    try {
+      for (ProductEnum value : ProductEnum.values()) {
+        if (value.value.equals(productValue)) {
+          return value;
+        }
+      }
+    } catch (Exception ignored) {
+    }
+    return null;
+  }
+
+  /**
+   * 根绝enum名解析
+   */
+  public static ProductEnum parseName(String productName) {
+    try {
+      return ProductEnum.valueOf(productName.toLowerCase());
+    } catch (Exception e) {
+      //
+    }
+    return null;
+  }
 }

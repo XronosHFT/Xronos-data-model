@@ -9,6 +9,8 @@ import net.openhft.chronicle.wire.WireIn;
 import net.openhft.chronicle.wire.WireOut;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.Locale;
+
 public class Balance extends AbstractEvent<Balance> {
 
   private static final int MASHALLABLE_VERSION = 1;
@@ -79,10 +81,10 @@ public class Balance extends AbstractEvent<Balance> {
 
   public String balanceId() {
     if (ProductEnum.SPOT.equals(product)) {
-      return String.join(XronosConstant.DOT_SEPARATOR, xsSymbol(), accountId).toLowerCase();
+      return String.join(XronosConstant.DOT_SEPARATOR, xsSymbol(), ProductEnum.SPOT.name()).toLowerCase();
     }
     if (ProductEnum.MARGIN.equals(product)) {
-      return String.join(XronosConstant.DOT_SEPARATOR, xsSymbol(), product.name().toLowerCase()).toLowerCase();
+      return String.join(XronosConstant.DOT_SEPARATOR, xsSymbol(), ProductEnum.MARGIN.name()).toLowerCase();
     }
     // TODO need to enhance for the other products
     return String.join(XronosConstant.DOT_SEPARATOR, xsSymbol(), accountId).toLowerCase();

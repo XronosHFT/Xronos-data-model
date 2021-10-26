@@ -19,12 +19,12 @@ public class Bar extends AbstractEvent<Bar> {
   private ExchangeEnum exchange = ExchangeEnum.NONE;
   private Date datetime = new Date();
   private IntervalEnum interval;
-  private float volume;
-  private float openInterest;
-  private float openPrice;
-  private float highPrice;
-  private float lowPrice;
-  private float closePrice;
+  private double volume;
+  private double openInterest;
+  private double openPrice;
+  private double highPrice;
+  private double lowPrice;
+  private double closePrice;
   private String xsSymbol = StringUtils.EMPTY;
 
   public String symbol() {
@@ -63,56 +63,56 @@ public class Bar extends AbstractEvent<Bar> {
     return this;
   }
 
-  public float volume() {
+  public double volume() {
     return volume;
   }
 
-  public Bar volume(float volume) {
+  public Bar volume(double volume) {
     this.volume = volume;
     return this;
   }
 
-  public float openInterest() {
+  public double openInterest() {
     return openInterest;
   }
 
-  public Bar openInterest(float openInterest) {
+  public Bar openInterest(double openInterest) {
     this.openInterest = openInterest;
     return this;
   }
 
-  public float openPrice() {
+  public double openPrice() {
     return openPrice;
   }
 
-  public Bar openPrice(float openPrice) {
+  public Bar openPrice(double openPrice) {
     this.openPrice = openPrice;
     return this;
   }
 
-  public float highPrice() {
+  public double highPrice() {
     return highPrice;
   }
 
-  public Bar highPrice(float highPrice) {
+  public Bar highPrice(double highPrice) {
     this.highPrice = highPrice;
     return this;
   }
 
-  public float lowPrice() {
+  public double lowPrice() {
     return lowPrice;
   }
 
-  public Bar lowPrice(float lowPrice) {
+  public Bar lowPrice(double lowPrice) {
     this.lowPrice = lowPrice;
     return this;
   }
 
-  public float closePrice() {
+  public double closePrice() {
     return closePrice;
   }
 
-  public Bar closePrice(float closePrice) {
+  public Bar closePrice(double closePrice) {
     this.closePrice = closePrice;
     return this;
   }
@@ -131,12 +131,12 @@ public class Bar extends AbstractEvent<Bar> {
       out.writeObject(ExchangeEnum.class, exchange);
       out.writeObject(Date.class, datetime);
       out.writeObject(IntervalEnum.class, interval);
-      out.writeFloat(volume);
-      out.writeFloat(openInterest);
-      out.writeFloat(openPrice);
-      out.writeFloat(highPrice);
-      out.writeFloat(lowPrice);
-      out.writeFloat(closePrice);
+      out.writeDouble(volume);
+      out.writeDouble(openInterest);
+      out.writeDouble(openPrice);
+      out.writeDouble(highPrice);
+      out.writeDouble(lowPrice);
+      out.writeDouble(closePrice);
     }
   }
 
@@ -150,12 +150,12 @@ public class Bar extends AbstractEvent<Bar> {
         exchange = (ExchangeEnum) in.readObject(ExchangeEnum.class);
         datetime = (Date) in.readObject(Date.class);
         interval = (IntervalEnum) in.readObject(IntervalEnum.class);
-        volume = in.readFloat();
-        openInterest = in.readFloat();
-        openPrice = in.readFloat();
-        highPrice = in.readFloat();
-        lowPrice = in.readFloat();
-        closePrice = in.readFloat();
+        volume = in.readDouble();
+        openInterest = in.readDouble();
+        openPrice = in.readDouble();
+        highPrice = in.readDouble();
+        lowPrice = in.readDouble();
+        closePrice = in.readDouble();
       } else {
         throw new IllegalStateException("Unknown version " + version);
       }
@@ -170,12 +170,12 @@ public class Bar extends AbstractEvent<Bar> {
       out.write("exchange").object(ExchangeEnum.class, exchange);
       out.write("datetime").object(Date.class, datetime);
       out.write("interval").object(IntervalEnum.class, interval);
-      out.write("volume").writeFloat(volume);
-      out.write("openInterest").writeFloat(openInterest);
-      out.write("openPrice").writeFloat(openPrice);
-      out.write("highPrice").writeFloat(highPrice);
-      out.write("lowPrice").writeFloat(lowPrice);
-      out.write("closePrice").writeFloat(closePrice);
+      out.write("volume").writeDouble(volume);
+      out.write("openInterest").writeDouble(openInterest);
+      out.write("openPrice").writeDouble(openPrice);
+      out.write("highPrice").writeDouble(highPrice);
+      out.write("lowPrice").writeDouble(lowPrice);
+      out.write("closePrice").writeDouble(closePrice);
     }
   }
 
@@ -187,12 +187,12 @@ public class Bar extends AbstractEvent<Bar> {
       exchange = in.read("exchange").object(exchange, ExchangeEnum.class);
       datetime = in.read("datetime").object(datetime, Date.class);
       interval = in.read("interval").object(interval, IntervalEnum.class);
-      volume = in.read("volume").readFloat();
-      openInterest = in.read("openInterest").readFloat();
-      openPrice = in.read("openPrice").readFloat();
-      highPrice = in.read("highPrice").readFloat();
-      lowPrice = in.read("lowPrice").readFloat();
-      closePrice = in.read("closePrice").readFloat();
+      volume = in.read("volume").readDouble();
+      openInterest = in.read("openInterest").readDouble();
+      openPrice = in.read("openPrice").readDouble();
+      highPrice = in.read("highPrice").readDouble();
+      lowPrice = in.read("lowPrice").readDouble();
+      closePrice = in.read("closePrice").readDouble();
     }
   }
 }

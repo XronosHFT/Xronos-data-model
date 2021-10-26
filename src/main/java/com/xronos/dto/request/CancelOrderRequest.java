@@ -1,5 +1,6 @@
 package com.xronos.dto.request;
 
+import com.xronos.constants.ContractTypeEnum;
 import com.xronos.constants.ExchangeEnum;
 import com.xronos.dto.AbstractEvent;
 import net.openhft.chronicle.bytes.BytesIn;
@@ -14,6 +15,8 @@ public class CancelOrderRequest extends AbstractEvent<CancelOrderRequest> {
   private long orderId;
 
   private String xsOrderId;
+
+  private ContractTypeEnum contractType;
 
   public CancelOrderRequest orderId(long orderId) {
     this.orderId = orderId;
@@ -51,12 +54,22 @@ public class CancelOrderRequest extends AbstractEvent<CancelOrderRequest> {
     return this;
   }
 
+  public ContractTypeEnum contractType() {
+    return contractType;
+  }
+
+  public CancelOrderRequest contractType(ContractTypeEnum contractTypeEnum) {
+    this.contractType = contractTypeEnum;
+    return this;
+  }
+
   @Override
   public void writeMarshallable(BytesOut out) {
     super.writeMarshallable(out);
     if (PREGENERATED_MARSHALLABLE) {
       out.writeObject(String.class, symbol);
       out.writeObject(ExchangeEnum.class, exchange);
+      out.writeObject(ContractTypeEnum.class, contractType);
       out.writeLong(orderId);
     }
   }
@@ -69,6 +82,7 @@ public class CancelOrderRequest extends AbstractEvent<CancelOrderRequest> {
       if (version == MASHALLABLE_VERSION) {
         symbol = (String) in.readObject(String.class);
         exchange = (ExchangeEnum) in.readObject(ExchangeEnum.class);
+        contractType = (ContractTypeEnum) in.readObject(ContractTypeEnum.class);
         orderId = in.readLong();
       } else {
         throw new IllegalStateException("Unknown version " + version);
@@ -82,6 +96,7 @@ public class CancelOrderRequest extends AbstractEvent<CancelOrderRequest> {
     if (PREGENERATED_MARSHALLABLE) {
       out.write("symbol").object(String.class, symbol);
       out.write("exchange").object(ExchangeEnum.class, exchange);
+      out.write("contractType").object(ContractTypeEnum.class, contractType);
       out.write("orderId").writeLong(orderId);
     }
   }
@@ -92,6 +107,7 @@ public class CancelOrderRequest extends AbstractEvent<CancelOrderRequest> {
     if (PREGENERATED_MARSHALLABLE) {
       symbol = in.read("symbol").object(symbol, String.class);
       exchange = in.read("exchange").object(exchange, ExchangeEnum.class);
+      exchange = in.read("contractType").object(exchange, ContractTypeEnum.class);
       orderId = in.read("orderId").readLong();
     }
   }

@@ -23,4 +23,9 @@ public enum StatusEnum {
   StatusEnum(String value) {
     this.value = value;
   }
+
+  public static boolean isActive(StatusEnum status) {
+    return SUBMITTING.equals(status) || SUBMITTED.equals(status) || NOT_TRADED.equals(status)
+        || PARTIAL_TRADED.equals(status) || CANCELLING.equals(status) || PARTIAL_CANCELED.equals(status);
+  }
 }

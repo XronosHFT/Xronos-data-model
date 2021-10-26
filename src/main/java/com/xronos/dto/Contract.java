@@ -22,6 +22,7 @@ public class Contract extends AbstractEvent<Contract> {
   private int status;
   private ContractTypeEnum contractType; //CW, NW, CQ, NQ
   private String deliveryDate;
+  private long settlementTime;
   private long deliveryTime;
   private double pricePrecision;
   private double amountPrecision;
@@ -287,6 +288,15 @@ public class Contract extends AbstractEvent<Contract> {
     return this;
   }
 
+  public long settlementTime() {
+    return settlementTime;
+  }
+
+  public Contract settlementTime(long settlementTime) {
+    this.settlementTime = settlementTime;
+    return this;
+  }
+
   @Override
   public void writeMarshallable(BytesOut out) {
     super.writeMarshallable(out);
@@ -294,6 +304,11 @@ public class Contract extends AbstractEvent<Contract> {
       out.writeObject(String.class, symbol);
       out.writeObject(String.class, name);
       out.writeObject(ProductEnum.class, product);
+      out.writeLong(deliveryTime);
+      out.writeInt(status);
+      out.writeObject(ContractTypeEnum.class, contractType);
+      out.writeObject(String.class, deliveryDate);
+      out.writeLong(settlementTime);
       out.writeInt(size);
       out.writeDouble(pricePrecision);
       out.writeDouble(amountPrecision);
@@ -326,6 +341,11 @@ public class Contract extends AbstractEvent<Contract> {
         name = (String) in.readObject(String.class);
         product = (ProductEnum) in.readObject(ProductEnum.class);
         size = in.readInt();
+        deliveryTime = in.readLong();
+        status = in.readInt();
+        contractType = (ContractTypeEnum) in.readObject(ContractTypeEnum.class);
+        deliveryDate = (String) in.readObject(String.class);
+        settlementTime = in.readLong();
         pricePrecision = in.readFloat();
         amountPrecision = in.readFloat();
         minOrderAmount = in.readFloat();
@@ -358,6 +378,11 @@ public class Contract extends AbstractEvent<Contract> {
       out.write("name").object(String.class, name);
       out.write("product").object(ProductEnum.class, product);
       out.write("size").writeInt(size);
+      out.write("deliveryTime").writeLong(deliveryTime);
+      out.write("status").writeInt(status);
+      out.write("contractType").object(ContractTypeEnum.class, contractType);
+      out.write("deliveryDate").object(String.class, deliveryDate);
+      out.write("settlementTime").writeLong(settlementTime);
       out.write("pricePrecision").writeDouble(pricePrecision);
       out.write("amountPrecision").writeDouble(amountPrecision);
       out.write("minOrderAmount").writeDouble(minOrderAmount);
@@ -387,6 +412,11 @@ public class Contract extends AbstractEvent<Contract> {
       name = in.read("name").object(name, String.class);
       product = in.read("product").object(product, ProductEnum.class);
       size = in.read("size").readInt();
+      deliveryTime = in.read("deliveryTime").readLong();
+      status = in.read("status").readInt();
+      contractType = in.read("contractType").object(ContractTypeEnum.class);
+      deliveryDate = in.read("deliveryDate").object(String.class);
+      settlementTime = in.read("settlementTime").readLong();
       pricePrecision = in.read("pricePrecision").readDouble();
       amountPrecision = in.read("amountPrecision").readDouble();
       minOrderAmount = in.read("minOrderAmount").readDouble();

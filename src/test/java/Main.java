@@ -1,44 +1,88 @@
 import com.xronos.dto.adder.IntegerAdder;
+import org.apache.commons.math3.filter.KalmanFilter;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 public class Main {
-  private static Map<String, IntegerAdder> orderCancelCounts = new HashMap<>();
+    private static Map<String, IntegerAdder> orderCancelCounts = new HashMap<>();
 
-  public static void main(String[] args) {
-    List<String> symbolList = new ArrayList<>();
-    for (int i = 0; i < 100; i++) {
-      symbolList.add(UUID.randomUUID().toString());
-    }
-    for (String symbol : symbolList) {
-      orderCancelCounts.put(symbol, new IntegerAdder(0));
-    }
-
-    for (String symbol : symbolList) {
-      orderCancelCounts.get(symbol).increment();
-      System.out.println(symbol + "====" + orderCancelCounts.get(symbol));
-    }
-
-    for (String symbol : symbolList) {
-      orderCancelCounts.get(symbol).increment();
+    public static void main(String[] args) {
+        double x = 0.1 + 0.2;
+        double round = Math.round(x * 1e15) / 1e15;
+        double[] y = {1.0, 1.0, 1.01, 1.02, 1.03, 1.02, 1.01, 1.0, 0.99, 0.98, 0.97, 0.98, 0.99};
+        printArray(y);
+        double[] derivative = derivative(y);
+        System.out.println("一阶导数");
+        printArray(derivative);
+        double[] derivative1 = derivative(derivative);
+        System.out.println("\n二阶导数");
+        printArray(derivative1);
+        printArray(localMaxIndex(y));
+        printArray(localMinIndex(y));
+//        new KalmanFilter(new Process(), n/ew Me)
     }
 
-    for (Map.Entry<String, IntegerAdder> entry : orderCancelCounts.entrySet()) {
-      System.out.println(entry.getKey() + "====" + entry.getValue().get());
-
+    private static void printArray(double[] y) {
+        for (int i = 0; i < y.length; i++) {
+            System.out.print("[" + i + "]" + ":" + y[i] + ",");
+        }
     }
 
-    for (String symbol : symbolList) {
-      orderCancelCounts.get(symbol).reset();
-      System.out.println(symbol + "====" + orderCancelCounts.get(symbol));
+    private static void printArray(int[] y) {
+        for (int i = 0; i < y.length; i++) {
+            System.out.print("[" + i + "]" + ":" + y[i] + ",");
+        }
     }
 
-    for (Map.Entry<String, IntegerAdder> entry : orderCancelCounts.entrySet()) {
-      System.out.println(entry.getKey() + "====" + entry.getValue().get());
+    public static double[] derivative(double[] input) {
+        double[] out = new double[input.length];
+        for (int i = 1; i <= input.length - 1; i++) {
+            out[i - 1] = Math.round((input[i] - input[i - 1]) * 1e15) / 1e15;
+        }
+        return out;
     }
-  }
+
+    /**
+     * 获取极大值索引
+     * @param inputArray
+     * @return
+     */
+    public static int[] localMaxIndex(double[] inputArray) {
+        double[] fstDerivative = derivative(inputArray);
+        StringBuilder ret = new StringBuilder();
+        for (int i = 2; i < inputArray.length; i++) {
+            if (fstDerivative[i - 2] > 0 && fstDerivative[i] < 0) {
+                ret.append(i - 1).append(",");
+            }
+        }
+        String[] split = ret.substring(0, ret.length() - 1).split(",");
+        int[] localMaxIndexIndex = new int[split.length];
+        for (int i = 0; i < localMaxIndexIndex.length; i++) {
+            localMaxIndexIndex[i] = Integer.parseInt(split[i]);
+        }
+        return localMaxIndexIndex;
+    }
+
+    /**
+     * 获取极小值索引
+     * @param inputArray
+     * @return
+     */
+    public static int[] localMinIndex(double[] inputArray) {
+        double[] fstDerivative = derivative(inputArray);
+        StringBuilder ret = new StringBuilder();
+        for (int i = 2; i < inputArray.length; i++) {
+            if (fstDerivative[i - 2] < 0 && fstDerivative[i] > 0) {
+                ret.append(i - 1).append(",");
+            }
+        }
+        String[] split = ret.substring(0, ret.length() - 1).split(",");
+        int[] localMaxIndexIndex = new int[split.length];
+        for (int i = 0; i < localMaxIndexIndex.length; i++) {
+            localMaxIndexIndex[i] = Integer.parseInt(split[i]);
+        }
+        return localMaxIndexIndex;
+    }
 }

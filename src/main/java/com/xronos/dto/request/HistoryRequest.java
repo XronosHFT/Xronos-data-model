@@ -15,7 +15,7 @@ public class HistoryRequest extends AbstractEvent<HistoryRequest> {
 
   private Date start;
   private Date end;
-  private IntervalEnum interval = IntervalEnum.NONE;
+  private IntervalEnum interval = IntervalEnum.RUNTIME;
 
   public String symbol() {
     return symbol;

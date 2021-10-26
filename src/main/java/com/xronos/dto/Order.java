@@ -166,18 +166,28 @@ public class Order extends AbstractEvent<Order> {
     return (exchange.name() + XronosConstant.DOT_SEPARATOR + orderId).toLowerCase();
   }
 
+  public String xsSymbol() {
+    if (!ContractTypeEnum.NONE.equals(contractType)) {
+      return (symbol + XronosConstant.UNDERLINE_SEPARATOR + contractType + XronosConstant.DOT_SEPARATOR + exchange.name()).toLowerCase();
+    }
+    return (symbol + XronosConstant.DOT_SEPARATOR + exchange.name()).toLowerCase();
+  }
+
+  /**
+   * 状态是活跃的，订单必定是活跃状态，活跃指的是还有接下来的状态。
+   * 对于合约订单，如果是开仓状态，订单仍旧应该属于活跃订单，其他订单（如现货），此时应该是不活跃
+   *
+   * @return
+   */
   public boolean active() {
-    Set<StatusEnum> activeStatus = new HashSet<>() {
-      {
-        add(StatusEnum.SUBMITTING);
-        add(StatusEnum.SUBMITTED);
-        add(StatusEnum.NOT_TRADED);
-        add(StatusEnum.PARTIAL_TRADED);
-        add(StatusEnum.PARTIAL_CANCELED);
-        add(StatusEnum.CANCELLING);
+    if (StatusEnum.isActive(status)) {
+      return true;
+    } else {
+      if (StatusEnum.ALL_TRADED.equals(status)) {
+        return OffsetEnum.OPEN.equals(offset);
       }
-    };
-    return activeStatus.contains(status);
+      return false;
+    }
   }
 
   public String accountId() {
