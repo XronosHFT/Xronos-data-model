@@ -19,7 +19,12 @@ public class Bar extends AbstractEvent<Bar> {
   private ExchangeEnum exchange = ExchangeEnum.NONE;
   private Date datetime = new Date();
   private IntervalEnum interval;
+  //成交量张数.值是买卖双边之和
   private double volume;
+  //成交笔数.值是买卖双边之和
+  private double count;
+  // 成交量(币)。 值是买卖双边之和
+  private double amount;
   private double openInterest;
   private double openPrice;
   private double highPrice;
@@ -117,6 +122,24 @@ public class Bar extends AbstractEvent<Bar> {
     return this;
   }
 
+  public double count() {
+    return count;
+  }
+
+  public Bar count(double count) {
+    this.count = count;
+    return this;
+  }
+
+  public double amount() {
+    return amount;
+  }
+
+  public Bar amount(double amount) {
+    this.amount = amount;
+    return this;
+  }
+
   public Bar xsSymbol(String xsSymbol) {
     this.xsSymbol = xsSymbol;
     return this;
@@ -132,6 +155,8 @@ public class Bar extends AbstractEvent<Bar> {
       out.writeObject(Date.class, datetime);
       out.writeObject(IntervalEnum.class, interval);
       out.writeDouble(volume);
+      out.writeDouble(count);
+      out.writeDouble(amount);
       out.writeDouble(openInterest);
       out.writeDouble(openPrice);
       out.writeDouble(highPrice);
@@ -151,6 +176,8 @@ public class Bar extends AbstractEvent<Bar> {
         datetime = (Date) in.readObject(Date.class);
         interval = (IntervalEnum) in.readObject(IntervalEnum.class);
         volume = in.readDouble();
+        count = in.readDouble();
+        amount = in.readDouble();
         openInterest = in.readDouble();
         openPrice = in.readDouble();
         highPrice = in.readDouble();
@@ -171,6 +198,8 @@ public class Bar extends AbstractEvent<Bar> {
       out.write("datetime").object(Date.class, datetime);
       out.write("interval").object(IntervalEnum.class, interval);
       out.write("volume").writeDouble(volume);
+      out.write("count").writeDouble(count);
+      out.write("amount").writeDouble(amount);
       out.write("openInterest").writeDouble(openInterest);
       out.write("openPrice").writeDouble(openPrice);
       out.write("highPrice").writeDouble(highPrice);
@@ -188,6 +217,8 @@ public class Bar extends AbstractEvent<Bar> {
       datetime = in.read("datetime").object(datetime, Date.class);
       interval = in.read("interval").object(interval, IntervalEnum.class);
       volume = in.read("volume").readDouble();
+      count = in.read("count").readDouble();
+      amount = in.read("amount").readDouble();
       openInterest = in.read("openInterest").readDouble();
       openPrice = in.read("openPrice").readDouble();
       highPrice = in.read("highPrice").readDouble();
