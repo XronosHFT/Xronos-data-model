@@ -7,7 +7,8 @@ public enum ContractTypeEnum {
   CW("this_week"),
   NW("next_week"),
   CQ("quarter"),
-  NQ("next_quarter");
+  NQ("next_quarter"),
+  SWAP("swap");
   String value;
 
   ContractTypeEnum(String value) {
@@ -17,7 +18,7 @@ public enum ContractTypeEnum {
   public static ContractTypeEnum parseValue(String contractTypeValue) {
     try {
       for (ContractTypeEnum value : ContractTypeEnum.values()) {
-        if (value.value.equals(contractTypeValue)) {
+        if (value.value.equalsIgnoreCase(contractTypeValue)) {
           return value;
         }
       }

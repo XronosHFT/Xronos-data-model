@@ -38,9 +38,9 @@ public enum ExchangeEnum {
 
   // CryptoCurrency
   BITME(""),
-  OKEX(""),
+  OKEX("okex"),
   BITFINEX(""),
-  BINANCE("biance"),
+  BINANCE("binance"),
   HUOBI("huobi"),
   COINBASE(""),
 
