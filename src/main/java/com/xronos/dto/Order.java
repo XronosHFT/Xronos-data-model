@@ -20,6 +20,7 @@ public class Order extends AbstractEvent<Order> {
   private static final int MASHALLABLE_VERSION = 1;
 
   private long orderId = Long.MIN_VALUE;
+  private String clientOrderId =StringUtils.EMPTY;
 
   private OrderTypeEnum orderType = OrderTypeEnum.NONE;
   private DirectionEnum direction = DirectionEnum.NONE;
@@ -32,6 +33,7 @@ public class Order extends AbstractEvent<Order> {
   private double volume;
   private double traded;
   private double remainAmount;
+  private double fee;
   private long time = 0L;
 
   private String accountId = StringUtils.EMPTY;
@@ -190,6 +192,15 @@ public class Order extends AbstractEvent<Order> {
     }
   }
 
+  public double fee() {
+    return fee;
+  }
+
+  public Order fee(double fee) {
+    this.fee = fee;
+    return this;
+  }
+
   public String accountId() {
     return accountId;
   }
@@ -199,12 +210,22 @@ public class Order extends AbstractEvent<Order> {
     return this;
   }
 
+  public String clientOrderId() {
+    return clientOrderId;
+  }
+
+  public Order clientOrderId(String clientOrderId) {
+    this.clientOrderId = clientOrderId;
+    return this;
+  }
+
   @Override
   public void writeMarshallable(BytesOut out) {
     super.writeMarshallable(out);
     if (PREGENERATED_MARSHALLABLE) {
       out.writeObject(String.class, symbol);
-      out.writeObject(String.class, orderId);
+      out.writeLong(orderId);
+      out.writeObject(String.class, clientOrderId);
       out.writeObject(String.class, accountId);
       out.writeObject(ExchangeEnum.class, exchange);
       out.writeObject(OrderTypeEnum.class, orderType);
@@ -215,6 +236,7 @@ public class Order extends AbstractEvent<Order> {
       out.writeDouble(volume);
       out.writeDouble(traded);
       out.writeDouble(remainAmount);
+      out.writeDouble(fee);
       out.writeLong(time);
     }
   }
@@ -227,6 +249,7 @@ public class Order extends AbstractEvent<Order> {
       if (version == MASHALLABLE_VERSION) {
         symbol = (String) in.readObject(String.class);
         accountId = (String) in.readObject(String.class);
+        clientOrderId = (String) in.readObject(String.class);
         orderId = in.readLong();
         exchange = (ExchangeEnum) in.readObject(ExchangeEnum.class);
         orderType = (OrderTypeEnum) in.readObject(OrderTypeEnum.class);
@@ -237,6 +260,7 @@ public class Order extends AbstractEvent<Order> {
         volume = in.readFloat();
         traded = in.readFloat();
         remainAmount = in.readFloat();
+        fee = in.readFloat();
         time = in.readLong();
       } else {
         throw new IllegalStateException("Unknown version " + version);
@@ -250,6 +274,7 @@ public class Order extends AbstractEvent<Order> {
     if (PREGENERATED_MARSHALLABLE) {
       out.write("symbol").object(String.class, symbol);
       out.write("accountId").object(String.class, accountId);
+      out.write("clientOrderId").object(String.class, clientOrderId);
       out.write("exchange").object(ExchangeEnum.class, exchange);
       out.write("orderId").writeLong(orderId);
       out.write("orderType").object(OrderTypeEnum.class, orderType);
@@ -260,6 +285,7 @@ public class Order extends AbstractEvent<Order> {
       out.write("volume").writeDouble(volume);
       out.write("traded").writeDouble(traded);
       out.write("remainAmount").writeDouble(remainAmount);
+      out.write("fee").writeDouble(fee);
       out.write("time").writeLong(time);
     }
   }
@@ -270,6 +296,7 @@ public class Order extends AbstractEvent<Order> {
     if (PREGENERATED_MARSHALLABLE) {
       symbol = in.read("symbol").object(symbol, String.class);
       accountId = in.read("accountId").object(accountId, String.class);
+      clientOrderId = in.read("clientOrderId").object(clientOrderId, String.class);
       exchange = in.read("exchange").object(exchange, ExchangeEnum.class);
       orderId = in.read("orderId").readLong();
       orderType = in.read("type").object(orderType, OrderTypeEnum.class);
@@ -280,6 +307,7 @@ public class Order extends AbstractEvent<Order> {
       volume = in.read("volume").readFloat();
       traded = in.read("traded").readFloat();
       remainAmount = in.read("remainAmount").readFloat();
+      fee = in.read("fee").readFloat();
       time = in.read("time").readLong();
     }
   }

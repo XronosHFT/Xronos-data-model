@@ -8,6 +8,9 @@ public enum ContractTypeEnum {
   NW("next_week"),
   CQ("quarter"),
   NQ("next_quarter"),
+  FUTURE("future"),
+  SPOT("spot"),
+  OPTION("option"),
   SWAP("swap");
   String value;
 

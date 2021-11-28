@@ -6,6 +6,7 @@ import com.xronos.constants.DirectionEnum;
 import com.xronos.constants.ExchangeEnum;
 import com.xronos.constants.OffsetEnum;
 import com.xronos.constants.OrderTypeEnum;
+import com.xronos.constants.TradeModeEnum;
 import com.xronos.dto.AbstractEvent;
 import net.openhft.chronicle.bytes.BytesIn;
 import net.openhft.chronicle.bytes.BytesOut;
@@ -19,6 +20,7 @@ public class OrderRequest extends AbstractEvent<OrderRequest> {
   private OrderTypeEnum orderType = OrderTypeEnum.NONE;
   private OffsetEnum offset = OffsetEnum.NONE;
   private ContractTypeEnum contractType = ContractTypeEnum.NONE;
+  private TradeModeEnum tradeMode = TradeModeEnum.NONE;
 
   private double volume;
   private double price;
@@ -114,6 +116,15 @@ public class OrderRequest extends AbstractEvent<OrderRequest> {
     return this;
   }
 
+  public TradeModeEnum tradeMode() {
+    return tradeMode;
+  }
+
+  public OrderRequest tradeMode(TradeModeEnum tradeMode) {
+    this.tradeMode = tradeMode;
+    return this;
+  }
+
   @Override
   public void writeMarshallable(BytesOut out) {
     super.writeMarshallable(out);
@@ -126,6 +137,7 @@ public class OrderRequest extends AbstractEvent<OrderRequest> {
       out.writeDouble(volume);
       out.writeObject(OffsetEnum.class, offset);
       out.writeObject(ContractTypeEnum.class, contractType);
+      out.writeObject(TradeModeEnum.class, tradeMode);
     }
   }
 
@@ -143,6 +155,7 @@ public class OrderRequest extends AbstractEvent<OrderRequest> {
         volume = in.readDouble();
         offset = (OffsetEnum) in.readObject(OffsetEnum.class);
         contractType = (ContractTypeEnum) in.readObject(ContractTypeEnum.class);
+        tradeMode = (TradeModeEnum) in.readObject(TradeModeEnum.class);
       } else {
         throw new IllegalStateException("Unknown version " + version);
       }
@@ -161,6 +174,7 @@ public class OrderRequest extends AbstractEvent<OrderRequest> {
       out.write("volume").writeDouble(volume);
       out.write("offset").object(OffsetEnum.class, offset);
       out.write("contractType").object(ContractTypeEnum.class, contractType);
+      out.write("tradeMode").object(TradeModeEnum.class, tradeMode);
     }
   }
 
@@ -176,6 +190,7 @@ public class OrderRequest extends AbstractEvent<OrderRequest> {
       volume = in.read("volume").readDouble();
       offset = in.read("offset").object(offset, OffsetEnum.class);
       contractType = in.read("contractType").object(contractType, ContractTypeEnum.class);
+      tradeMode = in.read("tradeMode").object(tradeMode, TradeModeEnum.class);
     }
   }
 }

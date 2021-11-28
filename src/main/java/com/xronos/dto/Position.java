@@ -1,8 +1,10 @@
 package com.xronos.dto;
 
 
+import com.xronos.constants.ContractTypeEnum;
 import com.xronos.constants.DirectionEnum;
 import com.xronos.constants.ExchangeEnum;
+import com.xronos.constants.LeverRateEnum;
 import com.xronos.dto.request.OrderRequest;
 import net.openhft.chronicle.bytes.BytesIn;
 import net.openhft.chronicle.bytes.BytesOut;
@@ -13,12 +15,15 @@ public class Position extends AbstractEvent<OrderRequest> {
   private static final int MASHALLABLE_VERSION = 1;
 
   private DirectionEnum direction = DirectionEnum.NONE;
+  private LeverRateEnum leverRate;
+  private ContractTypeEnum contractType;
 
-  private float volume;
-  private float frozen;
-  private float price;
-  private float pnl;
-  private float xsVolume;
+  private double volume;
+  private double frozen;
+  private double price;
+  private double pnl;
+  private double pnlRatio;
+  private double xsVolume;
 
   public String symbol() {
     return symbol;
@@ -47,48 +52,75 @@ public class Position extends AbstractEvent<OrderRequest> {
     return this;
   }
 
-  public float volume() {
+  public double volume() {
     return volume;
   }
 
-  public Position volume(float volume) {
+  public Position volume(double volume) {
     this.volume = volume;
     return this;
   }
 
-  public float frozen() {
+  public double frozen() {
     return frozen;
   }
 
-  public Position frozen(float frozen) {
+  public Position frozen(double frozen) {
     this.frozen = frozen;
     return this;
   }
 
-  public float price() {
+  public double price() {
     return price;
   }
 
-  public Position price(float price) {
+  public Position price(double price) {
     this.price = price;
     return this;
   }
 
-  public float pnl() {
+  public double pnl() {
     return pnl;
   }
 
-  public Position pnl(float pnl) {
+  public Position pnl(double pnl) {
     this.pnl = pnl;
     return this;
   }
 
-  public float xsVolume() {
+  public double xsVolume() {
     return xsVolume;
   }
 
-  public Position xsVolume(float xsVolume) {
+  public Position xsVolume(double xsVolume) {
     this.xsVolume = xsVolume;
+    return this;
+  }
+
+  public double pnlRatio() {
+    return pnlRatio;
+  }
+
+  public Position pnlRatio(double pnlRatio) {
+    this.pnlRatio = pnlRatio;
+    return this;
+  }
+
+  public LeverRateEnum leverRate() {
+    return leverRate;
+  }
+
+  public Position leverRate(LeverRateEnum leverRate) {
+    this.leverRate = leverRate;
+    return this;
+  }
+
+  public ContractTypeEnum contractType() {
+    return contractType;
+  }
+
+  public Position contractType(ContractTypeEnum contractType) {
+    this.contractType = contractType;
     return this;
   }
 
@@ -99,11 +131,14 @@ public class Position extends AbstractEvent<OrderRequest> {
       out.writeObject(String.class, symbol);
       out.writeObject(ExchangeEnum.class, exchange);
       out.writeObject(DirectionEnum.class, direction);
-      out.writeFloat(volume);
-      out.writeFloat(frozen);
-      out.writeFloat(price);
-      out.writeFloat(pnl);
-      out.writeFloat(xsVolume);
+      out.writeObject(ContractTypeEnum.class, contractType);
+      out.writeDouble(volume);
+      out.writeDouble(frozen);
+      out.writeDouble(price);
+      out.writeDouble(pnl);
+      out.writeDouble(pnlRatio);
+      out.writeObject(LeverRateEnum.class, leverRate);
+      out.writeDouble(xsVolume);
     }
   }
 
@@ -116,11 +151,14 @@ public class Position extends AbstractEvent<OrderRequest> {
         symbol = (String) in.readObject(String.class);
         exchange = (ExchangeEnum) in.readObject(ExchangeEnum.class);
         direction = (DirectionEnum) in.readObject(DirectionEnum.class);
-        volume = in.readFloat();
-        frozen = in.readFloat();
-        price = in.readFloat();
-        pnl = in.readFloat();
-        xsVolume = in.readFloat();
+        contractType = (ContractTypeEnum) in.readObject(ContractTypeEnum.class);
+        volume = in.readDouble();
+        frozen = in.readDouble();
+        price = in.readDouble();
+        pnl = in.readDouble();
+        pnlRatio = in.readDouble();
+        leverRate = (LeverRateEnum) in.readObject(LeverRateEnum.class);
+        xsVolume = in.readDouble();
       } else {
         throw new IllegalStateException("Unknown version " + version);
       }
@@ -134,11 +172,14 @@ public class Position extends AbstractEvent<OrderRequest> {
       out.write("symbol").object(String.class, symbol);
       out.write("exchange").object(ExchangeEnum.class, exchange);
       out.write("direction").object(DirectionEnum.class, direction);
-      out.write("volume").writeFloat(volume);
-      out.write("frozen").writeFloat(frozen);
-      out.write("price").writeFloat(price);
-      out.write("pnl").writeFloat(pnl);
-      out.write("xsVolume").writeFloat(xsVolume);
+      out.write("contractType").object(ContractTypeEnum.class, contractType);
+      out.write("volume").writeDouble(volume);
+      out.write("frozen").writeDouble(frozen);
+      out.write("price").writeDouble(price);
+      out.write("pnl").writeDouble(pnl);
+      out.write("pnlRatio").writeDouble(pnlRatio);
+      out.write("leverRate").object(LeverRateEnum.class, leverRate);
+      out.write("xsVolume").writeDouble(xsVolume);
     }
   }
 
@@ -149,11 +190,14 @@ public class Position extends AbstractEvent<OrderRequest> {
       symbol = in.read("symbol").object(symbol, String.class);
       exchange = in.read("exchange").object(exchange, ExchangeEnum.class);
       direction = in.read("direction").object(direction, DirectionEnum.class);
-      volume = in.read("volume").readFloat();
-      frozen = in.read("frozen").readFloat();
-      price = in.read("price").readFloat();
-      pnl = in.read("pnl").readFloat();
-      xsVolume = in.read("xsVolume").readFloat();
+      contractType = in.read("contractType").object(contractType, ContractTypeEnum.class);
+      volume = in.read("volume").readDouble();
+      frozen = in.read("frozen").readDouble();
+      price = in.read("price").readDouble();
+      pnl = in.read("pnl").readDouble();
+      pnlRatio = in.read("pnlRatio").readDouble();
+      leverRate = in.read("leverRate").object(leverRate, LeverRateEnum.class);
+      xsVolume = in.read("xsVolume").readDouble();
     }
   }
 }

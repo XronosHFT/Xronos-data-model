@@ -18,8 +18,13 @@ public enum IntervalEnum {
   HOUR_6("6h"),
   HOUR_12("12h"),
   DAILY("d"),
+  DAILY_2("d"),
+  DAILY_3("d"),
+  DAILY_5("d"),
   WEEKLY("w"),
   MONTH("m"),
+  MONTH_3("3m"),
+  MONTH_6("6m"),
   YEAR("y");
 
   String value;
