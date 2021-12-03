@@ -7,7 +7,7 @@ public enum OrderTypeEnum {
   LIMIT("限价"),
   LIGHTNING("闪电下单"),
   MARKET("市价"),
-  OPPONENT("opponent"),
+  OPPONENT("对手价"),
   STOP("stop"),
   FAK("fak"),
   FOK("fok"), // 全部成交或立即取消单

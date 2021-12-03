@@ -13,6 +13,7 @@ public enum ProductEnum {
   INDEX("指数"),
   FOREX("外汇"),
   SPOT("现货"),
+  SWAP("永续"),
   MARGIN("逐仓杠杆"),
   SUPER_MARGIN("全仓杠杆"),
   OTC("otc"),
@@ -21,7 +22,8 @@ public enum ProductEnum {
   BOND("债券"),
   WARRANT("权证"),
   SPREAD("价差"),
-  FUND("基金");
+  FUND("基金"),
+  ANY("任何");
 
   String value;
 

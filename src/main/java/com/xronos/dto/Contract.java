@@ -1,5 +1,6 @@
 package com.xronos.dto;
 
+import com.xronos.constants.ContractStatusEnum;
 import com.xronos.constants.ContractTypeEnum;
 import com.xronos.constants.ExchangeEnum;
 import com.xronos.constants.OptionTypeEnum;
@@ -18,10 +19,12 @@ public class Contract extends AbstractEvent<Contract> {
 
   private String name = StringUtils.EMPTY; // ETH210611
   private ProductEnum product = ProductEnum.NONE; // SPOT, MARGIN
-  private int size;
-  private int status;
+  private double size;
+  private ContractStatusEnum status;
   private ContractTypeEnum contractType; //CW, NW, CQ, NQ
   private String deliveryDate;
+  private double ctMult; // 合约乘数
+  private String ctValCcy; // 合约面值计价币种
   private long settlementTime;
   private long deliveryTime;
   private double pricePrecision;
@@ -81,11 +84,11 @@ public class Contract extends AbstractEvent<Contract> {
     return this;
   }
 
-  public int size() {
+  public double size() {
     return size;
   }
 
-  public Contract size(int size) {
+  public Contract size(double size) {
     this.size = size;
     return this;
   }
@@ -252,11 +255,11 @@ public class Contract extends AbstractEvent<Contract> {
     return this;
   }
 
-  public int status() {
+  public ContractStatusEnum status() {
     return status;
   }
 
-  public Contract status(int status) {
+  public Contract status(ContractStatusEnum status) {
     this.status = status;
     return this;
   }
@@ -297,19 +300,39 @@ public class Contract extends AbstractEvent<Contract> {
     return this;
   }
 
+  public double ctMult() {
+    return ctMult;
+  }
+
+  public Contract ctMult(double ctMult) {
+    this.ctMult = ctMult;
+    return this;
+  }
+
+  public String ctValCcy() {
+    return ctValCcy;
+  }
+
+  public Contract ctValCcy(String ctValCcy) {
+    this.ctValCcy = ctValCcy;
+    return this;
+  }
+
   @Override
   public void writeMarshallable(BytesOut out) {
     super.writeMarshallable(out);
     if (PREGENERATED_MARSHALLABLE) {
       out.writeObject(String.class, symbol);
       out.writeObject(String.class, name);
+      out.writeObject(String.class, ctValCcy);
+      out.writeDouble(ctMult);
       out.writeObject(ProductEnum.class, product);
       out.writeLong(deliveryTime);
-      out.writeInt(status);
+      out.writeObject(ContractStatusEnum.class, status);
       out.writeObject(ContractTypeEnum.class, contractType);
       out.writeObject(String.class, deliveryDate);
       out.writeLong(settlementTime);
-      out.writeInt(size);
+      out.writeDouble(size);
       out.writeDouble(pricePrecision);
       out.writeDouble(amountPrecision);
       out.writeDouble(minOrderAmount);
@@ -340,9 +363,11 @@ public class Contract extends AbstractEvent<Contract> {
         symbol = (String) in.readObject(String.class);
         name = (String) in.readObject(String.class);
         product = (ProductEnum) in.readObject(ProductEnum.class);
-        size = in.readInt();
+        size = in.readDouble();
+        ctMult = in.readDouble();
+        ctValCcy =  (String) in.readObject(String.class);
         deliveryTime = in.readLong();
-        status = in.readInt();
+        status = (ContractStatusEnum) in.readObject(ContractStatusEnum.class);
         contractType = (ContractTypeEnum) in.readObject(ContractTypeEnum.class);
         deliveryDate = (String) in.readObject(String.class);
         settlementTime = in.readLong();
@@ -376,10 +401,12 @@ public class Contract extends AbstractEvent<Contract> {
     if (PREGENERATED_MARSHALLABLE) {
       out.write("symbol").object(String.class, symbol);
       out.write("name").object(String.class, name);
+      out.write("ctValCcy").object(String.class, ctValCcy);
       out.write("product").object(ProductEnum.class, product);
-      out.write("size").writeInt(size);
+      out.write("size").writeDouble(size);
+      out.write("ctMult").writeDouble(ctMult);
       out.write("deliveryTime").writeLong(deliveryTime);
-      out.write("status").writeInt(status);
+      out.write("status").object(ContractStatusEnum.class, status);
       out.write("contractType").object(ContractTypeEnum.class, contractType);
       out.write("deliveryDate").object(String.class, deliveryDate);
       out.write("settlementTime").writeLong(settlementTime);
@@ -410,10 +437,12 @@ public class Contract extends AbstractEvent<Contract> {
     if (PREGENERATED_MARSHALLABLE) {
       symbol = in.read("symbol").object(symbol, String.class);
       name = in.read("name").object(name, String.class);
+      ctValCcy = in.read("ctValCcy").object(ctValCcy, String.class);
       product = in.read("product").object(product, ProductEnum.class);
-      size = in.read("size").readInt();
+      size = in.read("size").readDouble();
+      ctMult = in.read("ctMult").readDouble();
       deliveryTime = in.read("deliveryTime").readLong();
-      status = in.read("status").readInt();
+      status = in.read("status").object(status, ContractStatusEnum.class);
       contractType = in.read("contractType").object(ContractTypeEnum.class);
       deliveryDate = in.read("deliveryDate").object(String.class);
       settlementTime = in.read("settlementTime").readLong();
