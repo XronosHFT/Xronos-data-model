@@ -7,9 +7,9 @@ package com.xronos.constants;
  */
 public enum DirectionEnum {
   NONE("NONE"),
-  BUY("buy"),
-  SELL("sell"),
-  NET("净");
+  BUY("buy"), // 多
+  SELL("sell"), // 空
+  NET("net"); // 净
 
   String value;
 
