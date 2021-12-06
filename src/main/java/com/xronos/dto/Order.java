@@ -3,6 +3,7 @@ package com.xronos.dto;
 import com.xronos.constants.ContractTypeEnum;
 import com.xronos.constants.DirectionEnum;
 import com.xronos.constants.ExchangeEnum;
+import com.xronos.constants.LeverRateEnum;
 import com.xronos.constants.OffsetEnum;
 import com.xronos.constants.OrderTypeEnum;
 import com.xronos.constants.StatusEnum;
@@ -27,7 +28,7 @@ public class Order extends AbstractEvent<Order> {
   private OffsetEnum offset = OffsetEnum.NONE;
   private StatusEnum status = StatusEnum.NONE;
   private ContractTypeEnum contractType = ContractTypeEnum.NONE;
-  private int leverRate;
+  private LeverRateEnum leverRate;
 
   private double price;
   private double volume;
@@ -155,11 +156,11 @@ public class Order extends AbstractEvent<Order> {
     return this;
   }
 
-  public int leverRate() {
+  public LeverRateEnum leverRate() {
     return leverRate;
   }
 
-  public Order leverRate(int leverRate) {
+  public Order leverRate(LeverRateEnum leverRate) {
     this.leverRate = leverRate;
     return this;
   }
@@ -232,6 +233,7 @@ public class Order extends AbstractEvent<Order> {
       out.writeObject(DirectionEnum.class, direction);
       out.writeObject(OffsetEnum.class, offset);
       out.writeObject(StatusEnum.class, status);
+      out.writeObject(LeverRateEnum.class, leverRate);
       out.writeDouble(price);
       out.writeDouble(volume);
       out.writeDouble(traded);
@@ -255,7 +257,8 @@ public class Order extends AbstractEvent<Order> {
         orderType = (OrderTypeEnum) in.readObject(OrderTypeEnum.class);
         direction = (DirectionEnum) in.readObject(DirectionEnum.class);
         offset = (OffsetEnum) in.readObject(OffsetEnum.class);
-        status = (StatusEnum) in.readObject(OffsetEnum.class);
+        status = (StatusEnum) in.readObject(StatusEnum.class);
+        leverRate = (LeverRateEnum) in.readObject(LeverRateEnum.class);
         price = in.readFloat();
         volume = in.readFloat();
         traded = in.readFloat();
@@ -281,6 +284,7 @@ public class Order extends AbstractEvent<Order> {
       out.write("direction").object(DirectionEnum.class, direction);
       out.write("offset").object(OffsetEnum.class, offset);
       out.write("status").object(StatusEnum.class, status);
+      out.write("leverRate").object(LeverRateEnum.class, leverRate);
       out.write("price").writeDouble(price);
       out.write("volume").writeDouble(volume);
       out.write("traded").writeDouble(traded);
@@ -303,6 +307,7 @@ public class Order extends AbstractEvent<Order> {
       direction = in.read("direction").object(direction, DirectionEnum.class);
       offset = in.read("offset").object(offset, OffsetEnum.class);
       status = in.read("status").object(status, StatusEnum.class);
+      leverRate = in.read("leverRate").object(leverRate, LeverRateEnum.class);
       price = in.read("price").readFloat();
       volume = in.read("volume").readFloat();
       traded = in.read("traded").readFloat();
