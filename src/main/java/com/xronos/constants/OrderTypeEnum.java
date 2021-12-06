@@ -3,11 +3,11 @@ package com.xronos.constants;
 
 public enum OrderTypeEnum {
 
-  NONE("NONE"),
-  LIMIT("限价"),
-  LIGHTNING("闪电下单"),
-  MARKET("市价"),
-  OPPONENT("对手价"),
+  NONE("none"),
+  LIMIT("limit"),
+  LIGHTNING("lightning"),
+  MARKET("market"),
+  OPPONENT("opponent"),
   STOP("stop"),
   FAK("fak"),
   FOK("fok"), // 全部成交或立即取消单
