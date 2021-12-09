@@ -16,4 +16,8 @@ public enum DirectionEnum {
   DirectionEnum(String value) {
     this.value = value;
   }
+
+  public String value() {
+    return value;
+  }
 }

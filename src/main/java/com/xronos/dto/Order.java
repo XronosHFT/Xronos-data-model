@@ -170,9 +170,6 @@ public class Order extends AbstractEvent<Order> {
   }
 
   public String xsSymbol() {
-    if (!ContractTypeEnum.NONE.equals(contractType)) {
-      return (symbol + XronosConstant.UNDERLINE_SEPARATOR + contractType + XronosConstant.DOT_SEPARATOR + exchange.name()).toLowerCase();
-    }
     return (symbol + XronosConstant.DOT_SEPARATOR + exchange.name()).toLowerCase();
   }
 
