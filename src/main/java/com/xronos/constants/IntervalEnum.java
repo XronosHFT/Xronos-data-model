@@ -32,4 +32,8 @@ public enum IntervalEnum {
   IntervalEnum(String value) {
     this.value = value;
   }
+
+  public String value() {
+    return value;
+  }
 }
