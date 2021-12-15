@@ -11,7 +11,7 @@ import net.openhft.chronicle.bytes.BytesOut;
 import net.openhft.chronicle.wire.WireIn;
 import net.openhft.chronicle.wire.WireOut;
 
-public class Position extends AbstractEvent<OrderRequest> {
+public class Position extends AbstractEvent<Position> {
   private static final int MASHALLABLE_VERSION = 1;
 
   private DirectionEnum direction = DirectionEnum.NONE;
