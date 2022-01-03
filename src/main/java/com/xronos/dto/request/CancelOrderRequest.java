@@ -8,15 +8,28 @@ import net.openhft.chronicle.bytes.BytesOut;
 import net.openhft.chronicle.wire.WireIn;
 import net.openhft.chronicle.wire.WireOut;
 
+import java.util.Map;
+
 public class CancelOrderRequest extends AbstractEvent<CancelOrderRequest> {
 
   private static final int MASHALLABLE_VERSION = 1;
 
   private long orderId;
 
+  private Map<String, String> clientOrderIdSymbolMap;
+
   private String xsOrderId;
 
   private ContractTypeEnum contractType;
+
+  public Map<String, String> clientOrderIdSymbolMap() {
+    return clientOrderIdSymbolMap;
+  }
+
+  public CancelOrderRequest clientOrderIdSymbolMap(Map<String, String> clientOrderIdSymbolMap) {
+    this.clientOrderIdSymbolMap = clientOrderIdSymbolMap;
+    return this;
+  }
 
   public CancelOrderRequest orderId(long orderId) {
     this.orderId = orderId;
@@ -68,6 +81,7 @@ public class CancelOrderRequest extends AbstractEvent<CancelOrderRequest> {
     super.writeMarshallable(out);
     if (PREGENERATED_MARSHALLABLE) {
       out.writeObject(String.class, symbol);
+      out.writeObject(Map.class, clientOrderIdSymbolMap);
       out.writeObject(ExchangeEnum.class, exchange);
       out.writeObject(ContractTypeEnum.class, contractType);
       out.writeLong(orderId);
@@ -81,6 +95,7 @@ public class CancelOrderRequest extends AbstractEvent<CancelOrderRequest> {
       int version = (int) in.readStopBit();
       if (version == MASHALLABLE_VERSION) {
         symbol = (String) in.readObject(String.class);
+        clientOrderIdSymbolMap = (Map) in.readObject(Map.class);
         exchange = (ExchangeEnum) in.readObject(ExchangeEnum.class);
         contractType = (ContractTypeEnum) in.readObject(ContractTypeEnum.class);
         orderId = in.readLong();
@@ -95,6 +110,7 @@ public class CancelOrderRequest extends AbstractEvent<CancelOrderRequest> {
     super.writeMarshallable(out);
     if (PREGENERATED_MARSHALLABLE) {
       out.write("symbol").object(String.class, symbol);
+      out.write("clientOrderIdSymbolMap").object(Map.class, clientOrderIdSymbolMap);
       out.write("exchange").object(ExchangeEnum.class, exchange);
       out.write("contractType").object(ContractTypeEnum.class, contractType);
       out.write("orderId").writeLong(orderId);
@@ -106,6 +122,7 @@ public class CancelOrderRequest extends AbstractEvent<CancelOrderRequest> {
     super.readMarshallable(in);
     if (PREGENERATED_MARSHALLABLE) {
       symbol = in.read("symbol").object(symbol, String.class);
+      clientOrderIdSymbolMap = in.read("clientOrderIdSymbolMap").object(clientOrderIdSymbolMap, Map.class);
       exchange = in.read("exchange").object(exchange, ExchangeEnum.class);
       exchange = in.read("contractType").object(exchange, ContractTypeEnum.class);
       orderId = in.read("orderId").readLong();

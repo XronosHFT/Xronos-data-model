@@ -180,14 +180,7 @@ public class Order extends AbstractEvent<Order> {
    * @return
    */
   public boolean active() {
-    if (StatusEnum.isActive(status)) {
-      return true;
-    } else {
-      if (StatusEnum.ALL_TRADED.equals(status)) {
-        return OffsetEnum.OPEN.equals(offset);
-      }
-      return false;
-    }
+    return StatusEnum.isActive(status);
   }
 
   public double fee() {
