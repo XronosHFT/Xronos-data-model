@@ -5,7 +5,6 @@ import com.xronos.constants.ContractTypeEnum;
 import com.xronos.constants.DirectionEnum;
 import com.xronos.constants.ExchangeEnum;
 import com.xronos.constants.LeverRateEnum;
-import com.xronos.dto.request.OrderRequest;
 import net.openhft.chronicle.bytes.BytesIn;
 import net.openhft.chronicle.bytes.BytesOut;
 import net.openhft.chronicle.wire.WireIn;
@@ -19,7 +18,8 @@ public class Position extends AbstractEvent<Position> {
   private ContractTypeEnum contractType;
 
   private double volume;
-  private double frozen;
+  private double frozenVol;
+  private double availableVol;
   private double price;
   private double pnl;
   private double pnlRatio;
@@ -61,12 +61,12 @@ public class Position extends AbstractEvent<Position> {
     return this;
   }
 
-  public double frozen() {
-    return frozen;
+  public double frozenVol() {
+    return frozenVol;
   }
 
-  public Position frozen(double frozen) {
-    this.frozen = frozen;
+  public Position frozenVol(double frozen) {
+    this.frozenVol = frozen;
     return this;
   }
 
@@ -124,6 +124,15 @@ public class Position extends AbstractEvent<Position> {
     return this;
   }
 
+  public double availableVol() {
+    return availableVol;
+  }
+
+  public Position availableVol(double availableVol) {
+    this.availableVol = availableVol;
+    return this;
+  }
+
   @Override
   public void writeMarshallable(BytesOut out) {
     super.writeMarshallable(out);
@@ -133,7 +142,8 @@ public class Position extends AbstractEvent<Position> {
       out.writeObject(DirectionEnum.class, direction);
       out.writeObject(ContractTypeEnum.class, contractType);
       out.writeDouble(volume);
-      out.writeDouble(frozen);
+      out.writeDouble(frozenVol);
+      out.writeDouble(availableVol);
       out.writeDouble(price);
       out.writeDouble(pnl);
       out.writeDouble(pnlRatio);
@@ -153,7 +163,8 @@ public class Position extends AbstractEvent<Position> {
         direction = (DirectionEnum) in.readObject(DirectionEnum.class);
         contractType = (ContractTypeEnum) in.readObject(ContractTypeEnum.class);
         volume = in.readDouble();
-        frozen = in.readDouble();
+        frozenVol = in.readDouble();
+        availableVol = in.readDouble();
         price = in.readDouble();
         pnl = in.readDouble();
         pnlRatio = in.readDouble();
@@ -174,7 +185,8 @@ public class Position extends AbstractEvent<Position> {
       out.write("direction").object(DirectionEnum.class, direction);
       out.write("contractType").object(ContractTypeEnum.class, contractType);
       out.write("volume").writeDouble(volume);
-      out.write("frozen").writeDouble(frozen);
+      out.write("frozenVol").writeDouble(frozenVol);
+      out.write("availableVol").writeDouble(availableVol);
       out.write("price").writeDouble(price);
       out.write("pnl").writeDouble(pnl);
       out.write("pnlRatio").writeDouble(pnlRatio);
@@ -192,7 +204,8 @@ public class Position extends AbstractEvent<Position> {
       direction = in.read("direction").object(direction, DirectionEnum.class);
       contractType = in.read("contractType").object(contractType, ContractTypeEnum.class);
       volume = in.read("volume").readDouble();
-      frozen = in.read("frozen").readDouble();
+      frozenVol = in.read("frozenVol").readDouble();
+      availableVol = in.read("availableVol").readDouble();
       price = in.read("price").readDouble();
       pnl = in.read("pnl").readDouble();
       pnlRatio = in.read("pnlRatio").readDouble();
