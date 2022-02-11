@@ -57,7 +57,7 @@ public class Tick extends AbstractEvent<Tick> {
   }
 
   public Tick symbol(String symbol) {
-    this.symbol = symbol;
+    this.symbol = symbol.replace(" ", "");
     return this;
   }
 
@@ -369,7 +369,7 @@ public class Tick extends AbstractEvent<Tick> {
 
   @Override
   public String xsSymbol() {
-    return (symbol + XronosConstant.DOT_SEPARATOR + exchange.name()).toLowerCase();
+    return (symbol + XronosConstant.DOT_SEPARATOR + exchange.name()).replace(" ", "").toLowerCase();
   }
 
   @Override

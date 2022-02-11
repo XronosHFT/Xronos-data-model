@@ -29,7 +29,9 @@ public class OrderRequest extends AbstractEvent<OrderRequest> {
   }
 
   public OrderRequest clientOrderId(String clientOrderId) {
-    this.clientOrderId = clientOrderId;
+    if (StringUtils.isNotBlank(clientOrderId)) {
+      this.clientOrderId = clientOrderId;
+    }
     return this;
   }
 
