@@ -122,7 +122,7 @@ public class Trade extends AbstractEvent<Trade> {
   }
 
   public String xsTradeId() {
-    return gatewayName + XronosConstant.DOT_SEPARATOR + tradeId;
+    return exchange.name() + XronosConstant.DOT_SEPARATOR + tradeId;
   }
 
   public double profit() {

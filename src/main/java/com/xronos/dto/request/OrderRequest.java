@@ -8,11 +8,14 @@ import com.xronos.constants.OffsetEnum;
 import com.xronos.constants.OrderTypeEnum;
 import com.xronos.constants.TradeModeEnum;
 import com.xronos.dto.AbstractEvent;
+import com.xronos.util.OrderIdUtils;
 import net.openhft.chronicle.bytes.BytesIn;
 import net.openhft.chronicle.bytes.BytesOut;
 import net.openhft.chronicle.wire.WireIn;
 import net.openhft.chronicle.wire.WireOut;
 import org.apache.commons.lang3.StringUtils;
+
+import java.util.Objects;
 
 public class OrderRequest extends AbstractEvent<OrderRequest> {
 
@@ -29,8 +32,10 @@ public class OrderRequest extends AbstractEvent<OrderRequest> {
   }
 
   public OrderRequest clientOrderId(String clientOrderId) {
-    if (StringUtils.isNotBlank(clientOrderId)) {
+    if (Objects.nonNull(clientOrderId) && !"".equals(clientOrderId)) {
       this.clientOrderId = clientOrderId;
+    } else {
+      this.clientOrderId = OrderIdUtils.generator(OrderIdUtils.XS_PREFIX);
     }
     return this;
   }
