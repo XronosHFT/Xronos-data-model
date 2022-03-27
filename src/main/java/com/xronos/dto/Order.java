@@ -28,7 +28,7 @@ public class Order extends AbstractEvent<Order> {
   private OffsetEnum offset = OffsetEnum.NONE;
   private StatusEnum status = StatusEnum.NONE;
   private ContractTypeEnum contractType = ContractTypeEnum.NONE;
-  private LeverRateEnum leverRate;
+  private LeverRateEnum leverRate = LeverRateEnum.NONE;
 
   private double price;
   private double volume;

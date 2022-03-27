@@ -5,6 +5,7 @@ import java.util.Map;
 
 public enum LeverRateEnum {
 
+  NONE("0"),
   LEVER_RATE_1("1"),
   LEVER_RATE_2("2"),
   LEVER_RATE_3("3"),
