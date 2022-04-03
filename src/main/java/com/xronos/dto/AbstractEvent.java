@@ -11,7 +11,9 @@ import net.openhft.chronicle.wire.SelfDescribingMarshallable;
 import net.openhft.chronicle.wire.WireIn;
 import net.openhft.chronicle.wire.WireOut;
 
-public class AbstractEvent<E extends AbstractEvent<E>> extends SelfDescribingMarshallable {
+import java.io.Serializable;
+
+public class AbstractEvent<E extends AbstractEvent<E>> extends SelfDescribingMarshallable implements Serializable {
   // used to control the benchmark
   public static final boolean BYTES_IN_BINARY = Boolean.getBoolean("byteInBinary");
 
