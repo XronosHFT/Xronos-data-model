@@ -26,6 +26,8 @@ public class OrderRequest extends AbstractEvent<OrderRequest> {
   private ContractTypeEnum contractType = ContractTypeEnum.NONE;
   private TradeModeEnum tradeMode = TradeModeEnum.NONE;
   private String clientOrderId = StringUtils.EMPTY;
+  private String accountId = StringUtils.EMPTY;
+  private String apiName = StringUtils.EMPTY;
 
   public String clientOrderId() {
     return clientOrderId;
@@ -98,6 +100,7 @@ public class OrderRequest extends AbstractEvent<OrderRequest> {
     this.price = price;
     return this;
   }
+
   public int precision() {
     return precision;
   }
@@ -143,12 +146,32 @@ public class OrderRequest extends AbstractEvent<OrderRequest> {
     return this;
   }
 
+  public String accountId() {
+    return accountId;
+  }
+
+  public OrderRequest accountId(String accountId) {
+    this.accountId = accountId;
+    return this;
+  }
+
+  public String apiName() {
+    return apiName;
+  }
+
+  public OrderRequest apiName(String apiName) {
+    this.apiName = apiName;
+    return this;
+  }
+
   @Override
   public void writeMarshallable(BytesOut out) {
     super.writeMarshallable(out);
     if (PREGENERATED_MARSHALLABLE) {
       out.writeObject(String.class, symbol);
       out.writeObject(String.class, clientOrderId);
+      out.writeObject(String.class, accountId);
+      out.writeObject(String.class, apiName);
       out.writeDouble(price);
       out.writeInt(precision);
       out.writeInt(leverRate);
@@ -168,6 +191,8 @@ public class OrderRequest extends AbstractEvent<OrderRequest> {
       if (version == MASHALLABLE_VERSION) {
         symbol = (String) in.readObject(String.class);
         clientOrderId = (String) in.readObject(String.class);
+        accountId = (String) in.readObject(String.class);
+        apiName = (String) in.readObject(String.class);
         price = in.readDouble();
         precision = in.readInt();
         leverRate = in.readInt();
@@ -188,6 +213,8 @@ public class OrderRequest extends AbstractEvent<OrderRequest> {
     if (PREGENERATED_MARSHALLABLE) {
       out.write("symbol").object(String.class, symbol);
       out.write("clientOrderId").object(String.class, clientOrderId);
+      out.write("accountId").object(String.class, accountId);
+      out.write("apiName").object(String.class, apiName);
       out.write("price").writeDouble(price);
       out.write("precision").writeInt(precision);
       out.write("leverRate").writeInt(leverRate);
@@ -205,6 +232,8 @@ public class OrderRequest extends AbstractEvent<OrderRequest> {
     if (PREGENERATED_MARSHALLABLE) {
       symbol = in.read("symbol").object(symbol, String.class);
       clientOrderId = in.read("clientOrderId").object(clientOrderId, String.class);
+      apiName = in.read("apiName").object(apiName, String.class);
+      accountId = in.read("accountId").object(accountId, String.class);
       price = in.read("price").readDouble();
       precision = in.read("precision").readInt();
       leverRate = in.read("leverRate").readInt();

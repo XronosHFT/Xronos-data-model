@@ -9,6 +9,7 @@ import net.openhft.chronicle.bytes.BytesIn;
 import net.openhft.chronicle.bytes.BytesOut;
 import net.openhft.chronicle.wire.WireIn;
 import net.openhft.chronicle.wire.WireOut;
+import org.apache.commons.lang3.StringUtils;
 
 public class Position extends AbstractEvent<Position> {
   private static final int MASHALLABLE_VERSION = 1;
@@ -16,6 +17,7 @@ public class Position extends AbstractEvent<Position> {
   private DirectionEnum direction = DirectionEnum.NONE;
   private LeverRateEnum leverRate;
   private ContractTypeEnum contractType;
+  private String accountId = StringUtils.EMPTY;
 
   private double volume;
   private double frozenVol;
@@ -133,11 +135,21 @@ public class Position extends AbstractEvent<Position> {
     return this;
   }
 
+  public String accountId() {
+    return accountId;
+  }
+
+  public Position accountId(String accountId) {
+    this.accountId = accountId;
+    return this;
+  }
+
   @Override
   public void writeMarshallable(BytesOut out) {
     super.writeMarshallable(out);
     if (PREGENERATED_MARSHALLABLE) {
       out.writeObject(String.class, symbol);
+      out.writeObject(String.class, accountId);
       out.writeObject(ExchangeEnum.class, exchange);
       out.writeObject(DirectionEnum.class, direction);
       out.writeObject(ContractTypeEnum.class, contractType);
@@ -159,6 +171,7 @@ public class Position extends AbstractEvent<Position> {
       int version = (int) in.readStopBit();
       if (version == MASHALLABLE_VERSION) {
         symbol = (String) in.readObject(String.class);
+        accountId = (String) in.readObject(String.class);
         exchange = (ExchangeEnum) in.readObject(ExchangeEnum.class);
         direction = (DirectionEnum) in.readObject(DirectionEnum.class);
         contractType = (ContractTypeEnum) in.readObject(ContractTypeEnum.class);
@@ -181,6 +194,7 @@ public class Position extends AbstractEvent<Position> {
     super.writeMarshallable(out);
     if (PREGENERATED_MARSHALLABLE) {
       out.write("symbol").object(String.class, symbol);
+      out.write("accountId").object(String.class, accountId);
       out.write("exchange").object(ExchangeEnum.class, exchange);
       out.write("direction").object(DirectionEnum.class, direction);
       out.write("contractType").object(ContractTypeEnum.class, contractType);
@@ -200,6 +214,7 @@ public class Position extends AbstractEvent<Position> {
     super.readMarshallable(in);
     if (PREGENERATED_MARSHALLABLE) {
       symbol = in.read("symbol").object(symbol, String.class);
+      accountId = in.read("accountId").object(accountId, String.class);
       exchange = in.read("exchange").object(exchange, ExchangeEnum.class);
       direction = in.read("direction").object(direction, DirectionEnum.class);
       contractType = in.read("contractType").object(contractType, ContractTypeEnum.class);

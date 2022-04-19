@@ -8,6 +8,7 @@ import net.openhft.chronicle.bytes.BytesIn;
 import net.openhft.chronicle.bytes.BytesOut;
 import net.openhft.chronicle.wire.WireIn;
 import net.openhft.chronicle.wire.WireOut;
+import org.apache.commons.lang3.StringUtils;
 
 public class Trade extends AbstractEvent<Trade> {
   private static final int MASHALLABLE_VERSION = 1;
@@ -19,6 +20,7 @@ public class Trade extends AbstractEvent<Trade> {
 
   private String feeAsset;
   private String role;
+  private String accountId = StringUtils.EMPTY;
 
   private double profit;
   private double price;
@@ -152,11 +154,21 @@ public class Trade extends AbstractEvent<Trade> {
     return this;
   }
 
+  public String accountId() {
+    return accountId;
+  }
+
+  public Trade accountId(String accountId) {
+    this.accountId = accountId;
+    return this;
+  }
+
   @Override
   public void writeMarshallable(BytesOut out) {
     super.writeMarshallable(out);
     if (PREGENERATED_MARSHALLABLE) {
       out.writeObject(String.class, symbol);
+      out.writeObject(String.class, accountId);
       out.writeObject(String.class, feeAsset);
       out.writeObject(String.class, role);
       out.writeObject(DirectionEnum.class, direction);
@@ -180,6 +192,7 @@ public class Trade extends AbstractEvent<Trade> {
       int version = (int) in.readStopBit();
       if (version == MASHALLABLE_VERSION) {
         symbol = (String) in.readObject(String.class);
+        accountId = (String) in.readObject(String.class);
         feeAsset = (String) in.readObject(String.class);
         role = (String) in.readObject(String.class);
         direction = (DirectionEnum) in.readObject(DirectionEnum.class);
@@ -204,6 +217,7 @@ public class Trade extends AbstractEvent<Trade> {
     super.writeMarshallable(out);
     if (PREGENERATED_MARSHALLABLE) {
       out.write("symbol").object(String.class, symbol);
+      out.write("accountId").object(String.class, accountId);
       out.write("feeAsset").object(String.class, feeAsset);
       out.write("role").object(String.class, role);
 
@@ -226,8 +240,9 @@ public class Trade extends AbstractEvent<Trade> {
     super.readMarshallable(in);
     if (PREGENERATED_MARSHALLABLE) {
       symbol = in.read("symbol").object(symbol, String.class);
-      feeAsset = in.read("symbol").object(feeAsset, String.class);
-      role = in.read("symbol").object(role, String.class);
+      accountId = in.read("accountId").object(accountId, String.class);
+      feeAsset = in.read("feeAsset").object(feeAsset, String.class);
+      role = in.read("role").object(role, String.class);
       direction = in.read("direction").object(direction, DirectionEnum.class);
       offset = in.read("offset").object(offset, OffsetEnum.class);
 

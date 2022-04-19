@@ -15,7 +15,7 @@ public class SubscribeRequest extends AbstractEvent<SubscribeRequest> {
 
   private IntervalEnum period;
 
-  private String accountName;
+  private String accountId;
 
   private String apiName;
 
@@ -46,12 +46,12 @@ public class SubscribeRequest extends AbstractEvent<SubscribeRequest> {
     return this;
   }
 
-  public String accountName() {
-    return accountName;
+  public String accountId() {
+    return accountId;
   }
 
-  public SubscribeRequest accountName(String accountName) {
-    this.accountName = accountName;
+  public SubscribeRequest accountId(String accountId) {
+    this.accountId = accountId;
     return this;
   }
 
@@ -71,7 +71,7 @@ public class SubscribeRequest extends AbstractEvent<SubscribeRequest> {
       out.writeObject(String.class, symbol);
       out.writeObject(ExchangeEnum.class, exchange);
       out.writeObject(IntervalEnum.class, period);
-      out.writeObject(String.class, accountName);
+      out.writeObject(String.class, accountId);
       out.writeObject(String.class, apiName);
     }
   }
@@ -85,7 +85,7 @@ public class SubscribeRequest extends AbstractEvent<SubscribeRequest> {
         symbol = (String) in.readObject(String.class);
         exchange = (ExchangeEnum) in.readObject(ExchangeEnum.class);
         period = (IntervalEnum) in.readObject(IntervalEnum.class);
-        accountName = (String) in.readObject(String.class);
+        accountId = (String) in.readObject(String.class);
         apiName = (String) in.readObject(String.class);
       } else {
         throw new IllegalStateException("Unknown version " + version);
@@ -100,7 +100,7 @@ public class SubscribeRequest extends AbstractEvent<SubscribeRequest> {
       out.write("symbol").object(String.class, symbol);
       out.write("exchange").object(ExchangeEnum.class, exchange);
       out.write("period").object(IntervalEnum.class, period);
-      out.write("accountName").object(String.class, accountName);
+      out.write("accountId").object(String.class, accountId);
       out.write("apiName").object(String.class, apiName);
     }
   }
@@ -112,7 +112,7 @@ public class SubscribeRequest extends AbstractEvent<SubscribeRequest> {
       symbol = in.read("symbol").object(symbol, String.class);
       exchange = in.read("exchange").object(exchange, ExchangeEnum.class);
       period = in.read("period").object(period, IntervalEnum.class);
-      accountName = in.read("accountName").object(accountName, String.class);
+      accountId = in.read("accountId").object(accountId, String.class);
       apiName = in.read("apiName").object(apiName, String.class);
     }
   }
