@@ -1,7 +1,7 @@
 package com.xronos.dto;
 
 import com.xronos.constants.ExchangeEnum;
-import com.xronos.constants.XronosConstant;
+import com.xronos.util.ToolUtil;
 
 public class Account extends AbstractEvent<Account> {
 
@@ -20,11 +20,7 @@ public class Account extends AbstractEvent<Account> {
   }
 
   public String xsAccountId() {
-    if (subType.isBlank()) {
-      return String.join(XronosConstant.DOT_SEPARATOR, exchange.name(), type).toLowerCase();
-    } else {
-      return String.join(XronosConstant.DOT_SEPARATOR, exchange.name(), type, subType).toLowerCase();
-    }
+    return ToolUtil.getAccountKey(exchange, accountId);
   }
 
   public Account accountId(String accountId) {

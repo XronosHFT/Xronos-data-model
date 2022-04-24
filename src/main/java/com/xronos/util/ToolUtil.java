@@ -3,7 +3,6 @@ package com.xronos.util;
 import com.xronos.constants.ContractTypeEnum;
 import com.xronos.constants.DirectionEnum;
 import com.xronos.constants.ExchangeEnum;
-import com.xronos.constants.ProductEnum;
 import com.xronos.constants.XronosConstant;
 
 /**
@@ -11,16 +10,19 @@ import com.xronos.constants.XronosConstant;
  */
 public class ToolUtil {
 
+  private ToolUtil() {
+  }
+
   /**
    * 获取balance key
    *
    * @param asset
    * @param exchangeEnum
-   * @param productEnum
+   * @param accountId
    * @return
    */
-  public static String getBalanceKey(String asset, ExchangeEnum exchangeEnum) {
-    return String.join(XronosConstant.DOT_SEPARATOR, asset, exchangeEnum.name()).toLowerCase();
+  public static String getBalanceKey(String asset, ExchangeEnum exchangeEnum, String accountId) {
+    return String.join(XronosConstant.DOT_SEPARATOR, asset, exchangeEnum.name(), accountId).toLowerCase();
   }
 
   /**
@@ -42,9 +44,21 @@ public class ToolUtil {
    * @param exchange
    * @param direction
    * @param contractType
+   * @param accountId
    * @return
    */
-  public static String getPositionKey(String symbol, ExchangeEnum exchange, DirectionEnum direction, ContractTypeEnum contractType) {
-    return String.join(XronosConstant.DOT_SEPARATOR, symbol, exchange.name(), direction.name(), contractType.name()).toLowerCase();
+  public static String getPositionKey(String symbol, ExchangeEnum exchange, DirectionEnum direction, ContractTypeEnum contractType, String accountId) {
+    return String.join(XronosConstant.DOT_SEPARATOR, symbol, exchange.name(), direction.name(), contractType.name(), accountId).toLowerCase();
+  }
+
+  /**
+   * 获取账户key
+   *
+   * @param exchange
+   * @param accountId
+   * @return
+   */
+  public static String getAccountKey(ExchangeEnum exchange, String accountId) {
+    return String.join(XronosConstant.DOT_SEPARATOR, exchange.name(), accountId).toLowerCase();
   }
 }
