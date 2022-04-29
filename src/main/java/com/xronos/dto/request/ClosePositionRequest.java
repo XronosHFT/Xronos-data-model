@@ -23,6 +23,7 @@ public class ClosePositionRequest extends AbstractEvent<ClosePositionRequest> {
   private ContractTypeEnum contractType = ContractTypeEnum.NONE;
   private TradeModeEnum tradeMode = TradeModeEnum.NONE;
   private String accountId = StringUtils.EMPTY;
+  private String identity = StringUtils.EMPTY;
   private String apiName = StringUtils.EMPTY;
 
 
@@ -109,6 +110,15 @@ public class ClosePositionRequest extends AbstractEvent<ClosePositionRequest> {
     return this;
   }
 
+  public String identity() {
+    return identity;
+  }
+
+  public ClosePositionRequest identity(String identity) {
+    this.identity = identity;
+    return this;
+  }
+
   @Override
   public void writeMarshallable(BytesOut out) {
     super.writeMarshallable(out);
@@ -116,6 +126,7 @@ public class ClosePositionRequest extends AbstractEvent<ClosePositionRequest> {
       out.writeObject(String.class, symbol);
       out.writeObject(String.class, accountId);
       out.writeObject(String.class, apiName);
+      out.writeObject(String.class, identity);
       out.writeObject(OrderTypeEnum.class, orderType);
       out.writeObject(OffsetEnum.class, offset);
       out.writeObject(ContractTypeEnum.class, contractType);
@@ -132,6 +143,7 @@ public class ClosePositionRequest extends AbstractEvent<ClosePositionRequest> {
         symbol = (String) in.readObject(String.class);
         accountId = (String) in.readObject(String.class);
         apiName = (String) in.readObject(String.class);
+        identity = (String) in.readObject(String.class);
         orderType = (OrderTypeEnum) in.readObject(OrderTypeEnum.class);
         offset = (OffsetEnum) in.readObject(OffsetEnum.class);
         contractType = (ContractTypeEnum) in.readObject(ContractTypeEnum.class);
@@ -149,6 +161,7 @@ public class ClosePositionRequest extends AbstractEvent<ClosePositionRequest> {
       out.write("symbol").object(String.class, symbol);
       out.write("accountId").object(String.class, accountId);
       out.write("apiName").object(String.class, apiName);
+      out.write("identity").object(String.class, identity);
       out.write("type").object(OrderTypeEnum.class, orderType);
       out.write("offset").object(OffsetEnum.class, offset);
       out.write("contractType").object(ContractTypeEnum.class, contractType);
@@ -163,6 +176,7 @@ public class ClosePositionRequest extends AbstractEvent<ClosePositionRequest> {
       symbol = in.read("symbol").object(symbol, String.class);
       accountId = in.read("accountId").object(accountId, String.class);
       apiName = in.read("apiName").object(apiName, String.class);
+      identity = in.read("identity").object(identity, String.class);
       orderType = in.read("type").object(orderType, OrderTypeEnum.class);
       offset = in.read("offset").object(offset, OffsetEnum.class);
       contractType = in.read("contractType").object(contractType, ContractTypeEnum.class);

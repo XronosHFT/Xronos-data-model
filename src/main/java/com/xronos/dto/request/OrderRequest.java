@@ -28,6 +28,7 @@ public class OrderRequest extends AbstractEvent<OrderRequest> {
   private String clientOrderId = StringUtils.EMPTY;
   private String accountId = StringUtils.EMPTY;
   private String apiName = StringUtils.EMPTY;
+  private String identity = StringUtils.EMPTY;
 
   public String clientOrderId() {
     return clientOrderId;
@@ -164,6 +165,15 @@ public class OrderRequest extends AbstractEvent<OrderRequest> {
     return this;
   }
 
+  public String identity() {
+    return identity;
+  }
+
+  public OrderRequest identity(String identity) {
+    this.identity = identity;
+    return this;
+  }
+
   @Override
   public void writeMarshallable(BytesOut out) {
     super.writeMarshallable(out);
@@ -172,6 +182,7 @@ public class OrderRequest extends AbstractEvent<OrderRequest> {
       out.writeObject(String.class, clientOrderId);
       out.writeObject(String.class, accountId);
       out.writeObject(String.class, apiName);
+      out.writeObject(String.class, identity);
       out.writeDouble(price);
       out.writeInt(precision);
       out.writeInt(leverRate);
@@ -193,6 +204,7 @@ public class OrderRequest extends AbstractEvent<OrderRequest> {
         clientOrderId = (String) in.readObject(String.class);
         accountId = (String) in.readObject(String.class);
         apiName = (String) in.readObject(String.class);
+        identity = (String) in.readObject(String.class);
         price = in.readDouble();
         precision = in.readInt();
         leverRate = in.readInt();
@@ -215,6 +227,7 @@ public class OrderRequest extends AbstractEvent<OrderRequest> {
       out.write("clientOrderId").object(String.class, clientOrderId);
       out.write("accountId").object(String.class, accountId);
       out.write("apiName").object(String.class, apiName);
+      out.write("identity").object(String.class, identity);
       out.write("price").writeDouble(price);
       out.write("precision").writeInt(precision);
       out.write("leverRate").writeInt(leverRate);
@@ -234,6 +247,7 @@ public class OrderRequest extends AbstractEvent<OrderRequest> {
       clientOrderId = in.read("clientOrderId").object(clientOrderId, String.class);
       apiName = in.read("apiName").object(apiName, String.class);
       accountId = in.read("accountId").object(accountId, String.class);
+      identity = in.read("identity").object(identity, String.class);
       price = in.read("price").readDouble();
       precision = in.read("precision").readInt();
       leverRate = in.read("leverRate").readInt();
