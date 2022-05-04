@@ -3,7 +3,9 @@ package com.xronos.util;
 import com.xronos.constants.ContractTypeEnum;
 import com.xronos.constants.DirectionEnum;
 import com.xronos.constants.ExchangeEnum;
+import com.xronos.constants.LongOrShortEnum;
 import com.xronos.constants.XronosConstant;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * 跨模块公用工具类
@@ -60,5 +62,26 @@ public class ToolUtil {
    */
   public static String getAccountKey(ExchangeEnum exchange, String accountId) {
     return String.join(XronosConstant.DOT_SEPARATOR, exchange.name(), accountId).toLowerCase();
+  }
+
+  /**
+   * 获取策略唯一名
+   *
+   * @param accountId
+   * @param contract
+   * @param longOrShort
+   * @param strategyName
+   * @param exchange
+   * @return
+   */
+  public static String getStrategyUnionName(ExchangeEnum exchange, String accountId, String contract, String strategyName, LongOrShortEnum longOrShort) {
+    return String.join(XronosConstant.UNDERLINE_SEPARATOR, exchange.name(), accountId, covertToLocalContractName(contract), strategyName, longOrShort.getCode()).toLowerCase();
+  }
+
+  private static String covertToLocalContractName(String contract) {
+    if (StringUtils.isBlank(contract)) {
+      return contract;
+    }
+    return contract.replace("/", XronosConstant.UNDERLINE_SEPARATOR);
   }
 }
