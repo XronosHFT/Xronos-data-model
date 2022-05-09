@@ -37,4 +37,8 @@ public enum ContractStatusEnum {
   public String value() {
     return value;
   }
+
+  public static void main(String[] args) {
+    System.out.println(parseValue("live"));
+  }
 }
