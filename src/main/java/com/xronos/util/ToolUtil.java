@@ -84,4 +84,19 @@ public class ToolUtil {
     }
     return contract.replace("/", XronosConstant.UNDERLINE_SEPARATOR);
   }
+
+
+  /**
+   * 获取联合key
+   *
+   * @param keys
+   * @return
+   */
+  public static String getUnionKey(String... keys) {
+    final StringBuilder sb = new StringBuilder();
+    for (String key : keys) {
+      sb.append(key);
+    }
+    return sb.toString();
+  }
 }
