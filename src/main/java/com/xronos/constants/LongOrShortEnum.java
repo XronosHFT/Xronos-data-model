@@ -2,7 +2,8 @@ package com.xronos.constants;
 
 public enum LongOrShortEnum {
   LONG("long"),
-  SHORT("short");
+  SHORT("short"),
+  ARBITRAGE("arbitrage");
 
   private final String code;
 
