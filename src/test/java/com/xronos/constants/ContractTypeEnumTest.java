@@ -1,7 +1,7 @@
 package com.xronos.constants;
 
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.Test;
+import org.testng.annotations.Test;
 
 @Slf4j
 class ContractTypeEnumTest {
