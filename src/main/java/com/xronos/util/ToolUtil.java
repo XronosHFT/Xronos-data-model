@@ -60,8 +60,8 @@ public class ToolUtil {
    * @param accountId
    * @return
    */
-  public static String getAccountKey(ExchangeEnum exchange, String accountId) {
-    return String.join(XronosConstant.DOT_SEPARATOR, exchange.name(), accountId).toLowerCase();
+  public static String getAccountKey(ExchangeEnum exchange, String accountId, String symbol) {
+    return String.join(XronosConstant.DOT_SEPARATOR, exchange.name(), accountId, symbol).toLowerCase();
   }
 
   /**
