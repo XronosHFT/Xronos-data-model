@@ -1,37 +1,54 @@
-package com.xronos.dto.request;
+package com.xronos.dto.status;
 
 import com.xronos.constants.ExchangeEnum;
+import com.xronos.constants.WebsocketStatusEnum;
 import com.xronos.dto.AbstractEvent;
 import net.openhft.chronicle.bytes.BytesIn;
 import net.openhft.chronicle.bytes.BytesOut;
 import net.openhft.chronicle.wire.WireIn;
 import net.openhft.chronicle.wire.WireOut;
+import org.apache.commons.lang3.StringUtils;
 
-/**
- * 策略启动请求
- */
-public class StartSignalRequest extends AbstractEvent<StartSignalRequest> {
+public class WebSocketStatus extends AbstractEvent<WebSocketStatus> {
   private static final int MASHALLABLE_VERSION = 1;
 
-  private String name;
+  private String name = StringUtils.EMPTY;
 
-  private Object config;
+  private WebsocketStatusEnum status;
+
+  public String symbol() {
+    return symbol;
+  }
+
+  public WebSocketStatus symbol(String symbol) {
+    this.symbol = symbol;
+    return this;
+  }
+
+  public ExchangeEnum exchange() {
+    return exchange;
+  }
+
+  public WebSocketStatus exchange(ExchangeEnum exchange) {
+    this.exchange = exchange;
+    return this;
+  }
 
   public String name() {
     return name;
   }
 
-  public StartSignalRequest name(String name) {
+  public WebSocketStatus name(String name) {
     this.name = name;
     return this;
   }
 
-  public Object config() {
-    return config;
+  public WebsocketStatusEnum status() {
+    return status;
   }
 
-  public StartSignalRequest config(Object config) {
-    this.config = config;
+  public WebSocketStatus status(WebsocketStatusEnum status) {
+    this.status = status;
     return this;
   }
 
@@ -41,8 +58,8 @@ public class StartSignalRequest extends AbstractEvent<StartSignalRequest> {
     if (PREGENERATED_MARSHALLABLE) {
       out.writeObject(String.class, symbol);
       out.writeObject(ExchangeEnum.class, exchange);
+      out.writeObject(WebsocketStatusEnum.class, status);
       out.writeObject(String.class, name);
-      out.writeObject(Object.class, config);
     }
   }
 
@@ -54,8 +71,8 @@ public class StartSignalRequest extends AbstractEvent<StartSignalRequest> {
       if (version == MASHALLABLE_VERSION) {
         symbol = (String) in.readObject(String.class);
         exchange = (ExchangeEnum) in.readObject(ExchangeEnum.class);
+        status = (WebsocketStatusEnum) in.readObject(WebsocketStatusEnum.class);
         name = (String) in.readObject(String.class);
-        config = in.readObject(Object.class);
       } else {
         throw new IllegalStateException("Unknown version " + version);
       }
@@ -68,8 +85,8 @@ public class StartSignalRequest extends AbstractEvent<StartSignalRequest> {
     if (PREGENERATED_MARSHALLABLE) {
       out.write("symbol").object(String.class, symbol);
       out.write("exchange").object(ExchangeEnum.class, exchange);
+      out.write("status").object(WebsocketStatusEnum.class, status);
       out.write("name").object(String.class, name);
-      out.write("config").object(Object.class, config);
     }
   }
 
@@ -80,7 +97,7 @@ public class StartSignalRequest extends AbstractEvent<StartSignalRequest> {
       symbol = in.read("symbol").object(symbol, String.class);
       exchange = in.read("exchange").object(exchange, ExchangeEnum.class);
       name = in.read("name").object(name, String.class);
-      config = in.read("config").object(config, Object.class);
+      status = in.read("status").object(status, WebsocketStatusEnum.class);
     }
   }
 }

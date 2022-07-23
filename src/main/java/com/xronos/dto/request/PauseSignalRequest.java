@@ -8,30 +8,19 @@ import net.openhft.chronicle.wire.WireIn;
 import net.openhft.chronicle.wire.WireOut;
 
 /**
- * 策略启动请求
+ * 策略暂停请求
  */
-public class StartSignalRequest extends AbstractEvent<StartSignalRequest> {
+public class PauseSignalRequest extends AbstractEvent<PauseSignalRequest> {
   private static final int MASHALLABLE_VERSION = 1;
 
   private String name;
-
-  private Object config;
 
   public String name() {
     return name;
   }
 
-  public StartSignalRequest name(String name) {
+  public PauseSignalRequest name(String name) {
     this.name = name;
-    return this;
-  }
-
-  public Object config() {
-    return config;
-  }
-
-  public StartSignalRequest config(Object config) {
-    this.config = config;
     return this;
   }
 
@@ -42,7 +31,6 @@ public class StartSignalRequest extends AbstractEvent<StartSignalRequest> {
       out.writeObject(String.class, symbol);
       out.writeObject(ExchangeEnum.class, exchange);
       out.writeObject(String.class, name);
-      out.writeObject(Object.class, config);
     }
   }
 
@@ -55,7 +43,6 @@ public class StartSignalRequest extends AbstractEvent<StartSignalRequest> {
         symbol = (String) in.readObject(String.class);
         exchange = (ExchangeEnum) in.readObject(ExchangeEnum.class);
         name = (String) in.readObject(String.class);
-        config = in.readObject(Object.class);
       } else {
         throw new IllegalStateException("Unknown version " + version);
       }
@@ -69,7 +56,6 @@ public class StartSignalRequest extends AbstractEvent<StartSignalRequest> {
       out.write("symbol").object(String.class, symbol);
       out.write("exchange").object(ExchangeEnum.class, exchange);
       out.write("name").object(String.class, name);
-      out.write("config").object(Object.class, config);
     }
   }
 
@@ -80,7 +66,6 @@ public class StartSignalRequest extends AbstractEvent<StartSignalRequest> {
       symbol = in.read("symbol").object(symbol, String.class);
       exchange = in.read("exchange").object(exchange, ExchangeEnum.class);
       name = in.read("name").object(name, String.class);
-      config = in.read("config").object(config, Object.class);
     }
   }
 }

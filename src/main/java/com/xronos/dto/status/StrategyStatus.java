@@ -1,25 +1,26 @@
-package com.xronos.dto;
+package com.xronos.dto.status;
 
 import com.xronos.constants.ExchangeEnum;
-import com.xronos.constants.WebsocketStatusEnum;
+import com.xronos.constants.StrategyStatusEnum;
+import com.xronos.dto.AbstractEvent;
 import net.openhft.chronicle.bytes.BytesIn;
 import net.openhft.chronicle.bytes.BytesOut;
 import net.openhft.chronicle.wire.WireIn;
 import net.openhft.chronicle.wire.WireOut;
 import org.apache.commons.lang3.StringUtils;
 
-public class WebSocketStatus extends AbstractEvent<WebSocketStatus> {
+public class StrategyStatus extends AbstractEvent<StrategyStatus> {
   private static final int MASHALLABLE_VERSION = 1;
 
   private String name = StringUtils.EMPTY;
 
-  private WebsocketStatusEnum status;
+  private StrategyStatusEnum status;
 
   public String symbol() {
     return symbol;
   }
 
-  public WebSocketStatus symbol(String symbol) {
+  public StrategyStatus symbol(String symbol) {
     this.symbol = symbol;
     return this;
   }
@@ -28,7 +29,7 @@ public class WebSocketStatus extends AbstractEvent<WebSocketStatus> {
     return exchange;
   }
 
-  public WebSocketStatus exchange(ExchangeEnum exchange) {
+  public StrategyStatus exchange(ExchangeEnum exchange) {
     this.exchange = exchange;
     return this;
   }
@@ -37,16 +38,16 @@ public class WebSocketStatus extends AbstractEvent<WebSocketStatus> {
     return name;
   }
 
-  public WebSocketStatus name(String name) {
+  public StrategyStatus name(String name) {
     this.name = name;
     return this;
   }
 
-  public WebsocketStatusEnum status() {
+  public StrategyStatusEnum status() {
     return status;
   }
 
-  public WebSocketStatus status(WebsocketStatusEnum status) {
+  public StrategyStatus status(StrategyStatusEnum status) {
     this.status = status;
     return this;
   }
@@ -57,7 +58,7 @@ public class WebSocketStatus extends AbstractEvent<WebSocketStatus> {
     if (PREGENERATED_MARSHALLABLE) {
       out.writeObject(String.class, symbol);
       out.writeObject(ExchangeEnum.class, exchange);
-      out.writeObject(WebsocketStatusEnum.class, status);
+      out.writeObject(StrategyStatusEnum.class, status);
       out.writeObject(String.class, name);
     }
   }
@@ -70,7 +71,7 @@ public class WebSocketStatus extends AbstractEvent<WebSocketStatus> {
       if (version == MASHALLABLE_VERSION) {
         symbol = (String) in.readObject(String.class);
         exchange = (ExchangeEnum) in.readObject(ExchangeEnum.class);
-        status = (WebsocketStatusEnum) in.readObject(WebsocketStatusEnum.class);
+        status = (StrategyStatusEnum) in.readObject(StrategyStatusEnum.class);
         name = (String) in.readObject(String.class);
       } else {
         throw new IllegalStateException("Unknown version " + version);
@@ -84,7 +85,7 @@ public class WebSocketStatus extends AbstractEvent<WebSocketStatus> {
     if (PREGENERATED_MARSHALLABLE) {
       out.write("symbol").object(String.class, symbol);
       out.write("exchange").object(ExchangeEnum.class, exchange);
-      out.write("status").object(WebsocketStatusEnum.class, status);
+      out.write("status").object(StrategyStatusEnum.class, status);
       out.write("name").object(String.class, name);
     }
   }
@@ -96,7 +97,7 @@ public class WebSocketStatus extends AbstractEvent<WebSocketStatus> {
       symbol = in.read("symbol").object(symbol, String.class);
       exchange = in.read("exchange").object(exchange, ExchangeEnum.class);
       name = in.read("name").object(name, String.class);
-      status = in.read("status").object(status, WebsocketStatusEnum.class);
+      status = in.read("status").object(status, StrategyStatusEnum.class);
     }
   }
 }
