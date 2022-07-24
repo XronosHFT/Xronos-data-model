@@ -9,7 +9,7 @@ import net.openhft.chronicle.wire.WireIn;
 import net.openhft.chronicle.wire.WireOut;
 import org.apache.commons.lang3.StringUtils;
 
-public class StrategyStatus extends AbstractEvent<StrategyStatus> {
+public class StrategyTemplate extends AbstractEvent<StrategyTemplate> {
   private static final int MASHALLABLE_VERSION = 1;
 
   private String name = StringUtils.EMPTY;
@@ -30,7 +30,7 @@ public class StrategyStatus extends AbstractEvent<StrategyStatus> {
     return symbol;
   }
 
-  public StrategyStatus symbol(String symbol) {
+  public StrategyTemplate symbol(String symbol) {
     this.symbol = symbol;
     return this;
   }
@@ -39,7 +39,7 @@ public class StrategyStatus extends AbstractEvent<StrategyStatus> {
     return exchange;
   }
 
-  public StrategyStatus exchange(ExchangeEnum exchange) {
+  public StrategyTemplate exchange(ExchangeEnum exchange) {
     this.exchange = exchange;
     return this;
   }
@@ -48,7 +48,7 @@ public class StrategyStatus extends AbstractEvent<StrategyStatus> {
     return name;
   }
 
-  public StrategyStatus name(String name) {
+  public StrategyTemplate name(String name) {
     this.name = name;
     return this;
   }
@@ -57,7 +57,7 @@ public class StrategyStatus extends AbstractEvent<StrategyStatus> {
     return status;
   }
 
-  public StrategyStatus status(StrategyStatusEnum status) {
+  public StrategyTemplate status(StrategyStatusEnum status) {
     this.status = status;
     return this;
   }
@@ -66,7 +66,7 @@ public class StrategyStatus extends AbstractEvent<StrategyStatus> {
     return template;
   }
 
-  public StrategyStatus template(String template) {
+  public StrategyTemplate template(String template) {
     this.template = template;
     return this;
   }
@@ -75,7 +75,7 @@ public class StrategyStatus extends AbstractEvent<StrategyStatus> {
     return config;
   }
 
-  public StrategyStatus config(String config) {
+  public StrategyTemplate config(String config) {
     this.config = config;
     return this;
   }
