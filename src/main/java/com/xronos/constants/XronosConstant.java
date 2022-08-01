@@ -16,6 +16,9 @@ public class XronosConstant {
   public static final int LEVER_RATE_100 = 5;
   public static final int LEVER_RATE_125 = 5;
 
+  public static String PING = "ping";
+  public static String PONG = "pong";
+
   /***================核心持久化Map配置===============***/
   public static String CORE_MAP_PATH = "";
 
@@ -50,5 +53,6 @@ public class XronosConstant {
   public static int IDEMPOTENT_MAP_SIZE = 100_000;
   public static String IDEMPOTENT_MAP_NAME = "Idempotent";
   public static String IDEMPOTENT_MAP_PATH = CORE_MAP_PATH + "Idempotent.dat";
+
 
 }
