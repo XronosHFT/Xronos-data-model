@@ -20,7 +20,7 @@ public class XronosConstant {
   public static String PONG = "pong";
 
   /***================核心持久化Map配置===============***/
-  public static String CORE_MAP_PATH = "";
+  public static String CORE_MAP_PATH = "coreMap/";
 
   public static int TRADE_MAP_SIZE = 100_000;
   public static String TRADE_MAP_NAME = "Trade";
