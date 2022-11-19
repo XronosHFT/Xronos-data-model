@@ -21,6 +21,10 @@ public class XronosConstant {
 
   /***================核心持久化Map配置===============***/
   public static String CORE_MAP_PATH = "coreMap/";
+
+  static {
+    CORE_MAP_PATH = System.getProperty("sharePath", "") + CORE_MAP_PATH;
+  }
   public static String BACKTEST_MAP_TEMP_STRATEGY_PATH = "BackTestTrade/TempData/Strategy/";
   public static String BACKTEST_MAP_TEMP_EXCHANGE_PATH = "BackTestTrade/TempData/Exchange/";
   public static String BACKTEST_MAP_BASIC_STRATEGY_PATH = "BackTestTrade/BasicData/Strategy/";
@@ -69,6 +73,5 @@ public class XronosConstant {
   public static String IDEMPOTENT_MAP_NAME = "Idempotent";
   public static String IDEMPOTENT_MAP_PATH = CORE_MAP_PATH + "Idempotent.dat";
   public static String BACKTEST_IDEMPOTENT_MAP_STRATEGY_PATH = BACKTEST_MAP_TEMP_STRATEGY_PATH + "Idempotent.dat";
-
 
 }
