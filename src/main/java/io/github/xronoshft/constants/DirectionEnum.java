@@ -1,9 +1,7 @@
 package io.github.xronoshft.constants;
 
 /**
- * @author: Shawn
- * @Date: 10/16/2019
- * @Description:
+ * @author Shawn
  */
 public enum DirectionEnum {
   NONE("NONE"),

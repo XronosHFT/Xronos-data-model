@@ -1,9 +1,9 @@
 package io.github.xronoshft.constants;
 
 /**
- * @author: Shawn
- * @Date: 10/17/2019
- * @Description:
+ * @author Shawn
+ * 
+ * 
  */
 public enum CurrencyEnum {
   USD("USD"),

@@ -1,9 +1,9 @@
 package io.github.xronoshft.constants;
 
 /**
- * @author: Shawn
- * @Date: 10/24/2019
- * @Description:
+ * @author Shawn
+ * 
+ * 
  */
 public enum EventTypeEnum {
   EVENT_NONE("noneEvent"),
