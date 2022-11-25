@@ -23,9 +23,9 @@
         </developer>
     </developers>
     <scm>
-        <connection>git@github.com:XronosHFT/Xronos-data-model.git</connection>
-        <developerConnection>git@github.com:XronosHFT/Xronos-data-model.git</developerConnection>
-        <url>https://github.com/XronosHFT/Xronos-data-model</url>
+        <connection>scm:git@github.com:XronosHFT/Xronos-data-model.git</connection>
+        <developerConnection>scm:git@github.com:XronosHFT/Xronos-data-model.git</developerConnection>
+        <url>git@github.com:XronosHFT/Xronos-data-model.git</url>
     </scm>
     <profiles>
         <profile>
