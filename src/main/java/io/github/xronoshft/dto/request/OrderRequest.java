@@ -25,20 +25,20 @@ public class OrderRequest extends AbstractEvent<OrderRequest> {
   private OffsetEnum offset = OffsetEnum.NONE;
   private ContractTypeEnum contractType = ContractTypeEnum.NONE;
   private TradeModeEnum tradeMode = TradeModeEnum.NONE;
-  private String clientOrderId = StringUtils.EMPTY;
+  private Long clientOrderId = 0L;
   private String accountId = StringUtils.EMPTY;
   private String apiName = StringUtils.EMPTY;
   private String identity = StringUtils.EMPTY;
 
-  public String clientOrderId() {
+  public Long clientOrderId() {
     return clientOrderId;
   }
 
-  public OrderRequest clientOrderId(String clientOrderId) {
-    if (Objects.nonNull(clientOrderId) && !"".equals(clientOrderId)) {
+  public OrderRequest clientOrderId(Long clientOrderId) {
+    if (Objects.nonNull(clientOrderId)) {
       this.clientOrderId = clientOrderId;
     } else {
-      this.clientOrderId = OrderIdUtils.generator(OrderIdUtils.XS_PREFIX);
+      this.clientOrderId = OrderIdUtils.generator();
     }
     return this;
   }
@@ -179,7 +179,7 @@ public class OrderRequest extends AbstractEvent<OrderRequest> {
     super.writeMarshallable(out);
     if (PREGENERATED_MARSHALLABLE) {
       out.writeObject(String.class, symbol);
-      out.writeObject(String.class, clientOrderId);
+      out.writeLong(clientOrderId);
       out.writeObject(String.class, accountId);
       out.writeObject(String.class, apiName);
       out.writeObject(String.class, identity);
@@ -201,7 +201,7 @@ public class OrderRequest extends AbstractEvent<OrderRequest> {
       int version = (int) in.readStopBit();
       if (version == MASHALLABLE_VERSION) {
         symbol = (String) in.readObject(String.class);
-        clientOrderId = (String) in.readObject(String.class);
+        clientOrderId = in.readLong();
         accountId = (String) in.readObject(String.class);
         apiName = (String) in.readObject(String.class);
         identity = (String) in.readObject(String.class);
@@ -224,7 +224,7 @@ public class OrderRequest extends AbstractEvent<OrderRequest> {
     super.writeMarshallable(out);
     if (PREGENERATED_MARSHALLABLE) {
       out.write("symbol").object(String.class, symbol);
-      out.write("clientOrderId").object(String.class, clientOrderId);
+      out.write("clientOrderId").writeLong(clientOrderId);
       out.write("accountId").object(String.class, accountId);
       out.write("apiName").object(String.class, apiName);
       out.write("identity").object(String.class, identity);
@@ -244,7 +244,7 @@ public class OrderRequest extends AbstractEvent<OrderRequest> {
     super.readMarshallable(in);
     if (PREGENERATED_MARSHALLABLE) {
       symbol = in.read("symbol").object(symbol, String.class);
-      clientOrderId = in.read("clientOrderId").object(clientOrderId, String.class);
+      clientOrderId = in.read("clientOrderId").readLong();
       apiName = in.read("apiName").object(apiName, String.class);
       accountId = in.read("accountId").object(accountId, String.class);
       identity = in.read("identity").object(identity, String.class);

@@ -3,12 +3,9 @@ package io.github.xronoshft.util;
 public class OrderIdUtils {
 
     public static final String XS_PREFIX = "XS";
+    private static final SnowflakeIdWorker worker = new SnowflakeIdWorker(0,0);
 
-    public static String generator(String prefix) {
-        return prefix + System.nanoTime();
-    }
-
-    public static void main(String[] args) {
-        System.out.println(generator(XS_PREFIX));
+    public static Long generator() {
+        return worker.nextId();
     }
 }

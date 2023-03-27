@@ -5,6 +5,7 @@ import io.github.xronoshft.constants.ContractTypeEnum;
 import io.github.xronoshft.constants.DirectionEnum;
 import io.github.xronoshft.constants.ExchangeEnum;
 import io.github.xronoshft.constants.LeverRateEnum;
+import io.github.xronoshft.util.ToolUtil;
 import net.openhft.chronicle.bytes.BytesIn;
 import net.openhft.chronicle.bytes.BytesOut;
 import net.openhft.chronicle.wire.WireIn;
@@ -142,6 +143,11 @@ public class Position extends AbstractEvent<Position> {
   public Position accountId(String accountId) {
     this.accountId = accountId;
     return this;
+  }
+
+  @Override
+  public String xsSymbol() {
+    return ToolUtil.getPositionKey(symbol, exchange, direction, contractType, accountId);
   }
 
   @Override

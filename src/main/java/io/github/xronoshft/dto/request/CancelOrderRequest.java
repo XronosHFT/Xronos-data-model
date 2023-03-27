@@ -16,11 +16,11 @@ public class CancelOrderRequest extends AbstractEvent<CancelOrderRequest> {
 
   private long orderId;
 
-  private Map<String, String> clientOrderIdSymbolMap;
+  private Map<Long, String> clientOrderIdSymbolMap;
 
   private String xsOrderId;
 
-  private String clientOrderId;
+  private Long clientOrderId;
 
   private String accountId;
 
@@ -30,11 +30,11 @@ public class CancelOrderRequest extends AbstractEvent<CancelOrderRequest> {
 
   private ContractTypeEnum contractType;
 
-  public Map<String, String> clientOrderIdSymbolMap() {
+  public Map<Long, String> clientOrderIdSymbolMap() {
     return clientOrderIdSymbolMap;
   }
 
-  public CancelOrderRequest clientOrderIdSymbolMap(Map<String, String> clientOrderIdSymbolMap) {
+  public CancelOrderRequest clientOrderIdSymbolMap(Map<Long, String> clientOrderIdSymbolMap) {
     this.clientOrderIdSymbolMap = clientOrderIdSymbolMap;
     return this;
   }
@@ -85,11 +85,11 @@ public class CancelOrderRequest extends AbstractEvent<CancelOrderRequest> {
   }
 
 
-  public String clientOrderId() {
+  public Long clientOrderId() {
     return clientOrderId;
   }
 
-  public CancelOrderRequest clientOrderId(String clientOrderId) {
+  public CancelOrderRequest clientOrderId(Long clientOrderId) {
     this.clientOrderId = clientOrderId;
     return this;
   }
@@ -126,7 +126,7 @@ public class CancelOrderRequest extends AbstractEvent<CancelOrderRequest> {
     super.writeMarshallable(out);
     if (PREGENERATED_MARSHALLABLE) {
       out.writeObject(String.class, symbol);
-      out.writeObject(String.class, clientOrderId);
+      out.writeLong(clientOrderId);
       out.writeObject(String.class, accountId);
       out.writeObject(String.class, apiName);
       out.writeObject(String.class, identity);
@@ -146,7 +146,7 @@ public class CancelOrderRequest extends AbstractEvent<CancelOrderRequest> {
         symbol = (String) in.readObject(String.class);
         accountId = (String) in.readObject(String.class);
         apiName = (String) in.readObject(String.class);
-        clientOrderId = (String) in.readObject(String.class);
+        clientOrderId = in.readLong();
         identity = (String) in.readObject(String.class);
         clientOrderIdSymbolMap = (Map) in.readObject(Map.class);
         exchange = (ExchangeEnum) in.readObject(ExchangeEnum.class);
@@ -165,7 +165,7 @@ public class CancelOrderRequest extends AbstractEvent<CancelOrderRequest> {
       out.write("symbol").object(String.class, symbol);
       out.write("accountId").object(String.class, accountId);
       out.write("apiName").object(String.class, apiName);
-      out.write("clientOrderId").object(String.class, clientOrderId);
+      out.write("clientOrderId").writeLong(clientOrderId);
       out.write("identity").object(String.class, identity);
       out.write("clientOrderIdSymbolMap").object(Map.class, clientOrderIdSymbolMap);
       out.write("exchange").object(ExchangeEnum.class, exchange);
@@ -181,7 +181,7 @@ public class CancelOrderRequest extends AbstractEvent<CancelOrderRequest> {
       symbol = in.read("symbol").object(symbol, String.class);
       accountId = in.read("accountId").object(accountId, String.class);
       apiName = in.read("apiName").object(apiName, String.class);
-      clientOrderId = in.read("clientOrderId").object(clientOrderId, String.class);
+      clientOrderId = in.read("clientOrderId").readLong();
       identity = in.read("identity").object(identity, String.class);
       clientOrderIdSymbolMap = in.read("clientOrderIdSymbolMap").object(clientOrderIdSymbolMap, Map.class);
       exchange = in.read("exchange").object(exchange, ExchangeEnum.class);

@@ -3,6 +3,7 @@ package io.github.xronoshft.dto;
 import io.github.xronoshft.constants.ExchangeEnum;
 import io.github.xronoshft.constants.ProductEnum;
 import io.github.xronoshft.constants.XronosConstant;
+import io.github.xronoshft.util.ToolUtil;
 import net.openhft.chronicle.bytes.BytesIn;
 import net.openhft.chronicle.bytes.BytesOut;
 import net.openhft.chronicle.wire.WireIn;
@@ -74,7 +75,7 @@ public class Balance extends AbstractEvent<Balance> {
   }
 
   public String xsSymbol() {
-    return (asset + XronosConstant.DOT_SEPARATOR + exchange.name()).toLowerCase();
+    return ToolUtil.getBalanceKey(asset, exchange, accountId);
   }
 
   public String symbol() {

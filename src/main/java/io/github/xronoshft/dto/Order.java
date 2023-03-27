@@ -18,7 +18,7 @@ public class Order extends AbstractEvent<Order> {
   private static final int MASHALLABLE_VERSION = 1;
 
   private long orderId = Long.MIN_VALUE;
-  private String clientOrderId =StringUtils.EMPTY;
+  private Long clientOrderId = null;
 
   private OrderTypeEnum orderType = OrderTypeEnum.NONE;
   private DirectionEnum direction = DirectionEnum.NONE;
@@ -198,11 +198,11 @@ public class Order extends AbstractEvent<Order> {
     return this;
   }
 
-  public String clientOrderId() {
+  public Long clientOrderId() {
     return clientOrderId;
   }
 
-  public Order clientOrderId(String clientOrderId) {
+  public Order clientOrderId(Long clientOrderId) {
     this.clientOrderId = clientOrderId;
     return this;
   }
@@ -213,7 +213,7 @@ public class Order extends AbstractEvent<Order> {
     if (PREGENERATED_MARSHALLABLE) {
       out.writeObject(String.class, symbol);
       out.writeLong(orderId);
-      out.writeObject(String.class, clientOrderId);
+      out.writeObject(Long.class, clientOrderId);
       out.writeObject(String.class, accountId);
       out.writeObject(ExchangeEnum.class, exchange);
       out.writeObject(OrderTypeEnum.class, orderType);
@@ -238,7 +238,7 @@ public class Order extends AbstractEvent<Order> {
       if (version == MASHALLABLE_VERSION) {
         symbol = (String) in.readObject(String.class);
         accountId = (String) in.readObject(String.class);
-        clientOrderId = (String) in.readObject(String.class);
+        clientOrderId = in.readLong();
         orderId = in.readLong();
         exchange = (ExchangeEnum) in.readObject(ExchangeEnum.class);
         orderType = (OrderTypeEnum) in.readObject(OrderTypeEnum.class);
@@ -264,7 +264,7 @@ public class Order extends AbstractEvent<Order> {
     if (PREGENERATED_MARSHALLABLE) {
       out.write("symbol").object(String.class, symbol);
       out.write("accountId").object(String.class, accountId);
-      out.write("clientOrderId").object(String.class, clientOrderId);
+      out.write("clientOrderId").writeLong(clientOrderId);
       out.write("exchange").object(ExchangeEnum.class, exchange);
       out.write("orderId").writeLong(orderId);
       out.write("orderType").object(OrderTypeEnum.class, orderType);

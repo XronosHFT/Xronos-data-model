@@ -5,6 +5,7 @@ import io.github.xronoshft.constants.ContractTypeEnum;
 import io.github.xronoshft.constants.ExchangeEnum;
 import io.github.xronoshft.constants.OptionTypeEnum;
 import io.github.xronoshft.constants.ProductEnum;
+import io.github.xronoshft.util.ToolUtil;
 import net.openhft.chronicle.bytes.BytesIn;
 import net.openhft.chronicle.bytes.BytesOut;
 import net.openhft.chronicle.wire.WireIn;
@@ -316,6 +317,10 @@ public class Contract extends AbstractEvent<Contract> {
   public Contract ctValCcy(String ctValCcy) {
     this.ctValCcy = ctValCcy;
     return this;
+  }
+
+  public String xsSymbol() {
+    return ToolUtil.getContractKey(symbol, exchange);
   }
 
   @Override
