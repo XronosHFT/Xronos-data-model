@@ -8,7 +8,7 @@
     <version>1.0.0-RELEASE</version>
 
     <modelVersion>4.0.0</modelVersion>
-    <name>xronos-data-model</name>
+    <name>data-model</name>
     <description>xronos data model</description>
 
     <url>https://github.com/XronosHFT/Xronos-data-model</url>
