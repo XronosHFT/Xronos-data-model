@@ -1,8 +1,5 @@
 package io.github.xronoshft.constants;
 
-/**
- * @author Shawn
- */
 public enum DirectionEnum {
   NONE("NONE"),
   BUY("buy"), // 多

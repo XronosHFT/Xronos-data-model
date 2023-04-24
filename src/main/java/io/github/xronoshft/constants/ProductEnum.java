@@ -1,8 +1,5 @@
 package io.github.xronoshft.constants;
 
-/**
- * @author Shawn
- */
 public enum ProductEnum {
   NONE("NONE"),
   EQUITY("股票"),

@@ -7,9 +7,6 @@ import net.openhft.chronicle.bytes.BytesOut;
 import net.openhft.chronicle.wire.WireIn;
 import net.openhft.chronicle.wire.WireOut;
 
-/**
- * 策略停止请求
- */
 public class StopSignalRequest extends AbstractEvent<StopSignalRequest> {
   private static final int MASHALLABLE_VERSION = 1;
 

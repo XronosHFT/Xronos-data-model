@@ -14,7 +14,6 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.Date;
 
-// symbol + contractType:应该是唯一的key
 public class Contract extends AbstractEvent<Contract> {
   private static final int MASHALLABLE_VERSION = 1;
 

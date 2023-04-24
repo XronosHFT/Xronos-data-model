@@ -7,9 +7,6 @@ import net.openhft.chronicle.bytes.BytesOut;
 import net.openhft.chronicle.wire.WireIn;
 import net.openhft.chronicle.wire.WireOut;
 
-/**
- * 策略启动请求
- */
 public class StartSignalRequest extends AbstractEvent<StartSignalRequest> {
   private static final int MASHALLABLE_VERSION = 1;
 

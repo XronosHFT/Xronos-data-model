@@ -59,6 +59,12 @@
                                     <goal>jar</goal>
                                 </goals>
                             </execution>
+                            <execution>
+                                <id>attach-javadocs</id> <!-- The actual id should be apparent from maven output -->
+                                <configuration>
+                                    <failOnError>false</failOnError>
+                                </configuration>
+                            </execution>
                         </executions>
                         <version>3.5.0</version>
                     </plugin>

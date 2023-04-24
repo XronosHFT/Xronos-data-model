@@ -7,9 +7,6 @@ import net.openhft.chronicle.bytes.BytesOut;
 import net.openhft.chronicle.wire.WireIn;
 import net.openhft.chronicle.wire.WireOut;
 
-/**
- * 策略暂停请求
- */
 public class PauseSignalRequest extends AbstractEvent<PauseSignalRequest> {
   private static final int MASHALLABLE_VERSION = 1;
 

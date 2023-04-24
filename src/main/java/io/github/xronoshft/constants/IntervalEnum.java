@@ -1,9 +1,5 @@
 package io.github.xronoshft.constants;
 
-/**
- * IntervalEnum of bar data.
- */
-
 public enum IntervalEnum {
   NONE("NONE"),
   RUNTIME("runtime"),

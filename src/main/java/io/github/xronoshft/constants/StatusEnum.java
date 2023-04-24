@@ -1,10 +1,5 @@
 package io.github.xronoshft.constants;
 
-/**
- * @author Shawn
- *
- * 
- */
 public enum StatusEnum {
 
   NONE("NONE"),
