@@ -1,5 +1,9 @@
 package io.github.xronoshft.constants;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+
 public enum StatusEnum {
 
   NONE("NONE"),
@@ -19,8 +23,24 @@ public enum StatusEnum {
     this.value = value;
   }
 
+  private static Map<String, StatusEnum> initMap = new HashMap<>();
+
+  static {
+    for (StatusEnum value : StatusEnum.values()) {
+      initMap.put(value.name(), value);
+    }
+  }
+
   public static boolean isActive(StatusEnum status) {
     return SUBMITTING.equals(status) || SUBMITTED.equals(status) || NOT_TRADED.equals(status)
         || PARTIAL_TRADED.equals(status) || CANCELLING.equals(status) || PARTIAL_CANCELED.equals(status);
+  }
+
+  public static StatusEnum getStatus(String name) {
+    StatusEnum statusEnum = initMap.get(name);
+    if (Objects.nonNull(statusEnum)) {
+      return statusEnum;
+    }
+    return StatusEnum.NONE;
   }
 }
