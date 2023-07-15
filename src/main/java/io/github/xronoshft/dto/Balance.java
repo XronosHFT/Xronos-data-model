@@ -52,10 +52,6 @@ public class Balance extends AbstractEvent<Balance> {
     return available;
   }
 
-  public String xsAccountId() {
-    return gatewayName + XronosConstant.DOT_SEPARATOR + accountId;
-  }
-
   public String asset() {
     return asset;
   }
@@ -75,6 +71,10 @@ public class Balance extends AbstractEvent<Balance> {
   }
 
   public String xsSymbol() {
+    return ToolUtil.getBalanceKey(asset, exchange, accountId);
+  }
+
+  public String xsBalanceId() {
     return ToolUtil.getBalanceKey(asset, exchange, accountId);
   }
 

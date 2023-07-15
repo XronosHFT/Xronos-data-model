@@ -1,7 +1,5 @@
 package io.github.xronoshft.util;
 
-import java.math.BigDecimal;
-
 public class MathUtil {
 
   /**
@@ -35,6 +33,16 @@ public class MathUtil {
 
   public static double maintainPrecision(double input) {
     return Math.round(input * 1e15) / 1e15;
+  }
+
+  public static double findMin(double... values) {
+    double min = values[0];
+    for (int i = 1; i < values.length; i++) {
+      if (values[i] < min) {
+        min = values[i];
+      }
+    }
+    return min;
   }
 
   public static void main(String[] args) {
