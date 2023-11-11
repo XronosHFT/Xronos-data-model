@@ -30,6 +30,11 @@ public interface Messaging {
     STORAGE(1),
 
     /**
+     * Topic name: events to storage-engine.
+     */
+    DATA(1),
+
+    /**
      * Topic name: events to back-test engine.
      */
     BACK_TEST(1);
