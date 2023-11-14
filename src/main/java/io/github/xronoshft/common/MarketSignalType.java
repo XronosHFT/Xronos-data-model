@@ -12,6 +12,11 @@ public interface MarketSignalType {
     _8_H,
     _12_H,
     _24_H,
+    _3_D,
+    _5_D,
+    _7_D,
+    _15_D,
+    _30_D,
     ;
 
     public static String getName() {
