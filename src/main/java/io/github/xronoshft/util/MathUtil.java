@@ -44,7 +44,4 @@ public class MathUtil {
     }
     return min;
   }
-
-  public static void main(String[] args) {
-  }
 }

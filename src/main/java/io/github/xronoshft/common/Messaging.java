@@ -37,7 +37,20 @@ public interface Messaging {
     /**
      * Topic name: events to back-test engine.
      */
-    BACK_TEST(1);
+    BACK_TEST(1),
+
+    /**
+     * redis in channel
+     */
+    IN_CHANNEL(1),
+
+
+    /**
+     * redis in channel
+     */
+    OUT_CHANNEL(1),
+
+    ;
 
     private final int concurrency;
 

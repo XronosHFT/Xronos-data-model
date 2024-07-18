@@ -52,9 +52,4 @@ public interface MarketSignalType {
       throw new RuntimeException("not signal type matched");
     }
   }
-
-  public static void main(String[] args) {
-    String signalTypeName = CAPITAL_INFLOW._15_MIN.getSignalTypeName();
-    System.out.println(signalTypeName);
-  }
 }
